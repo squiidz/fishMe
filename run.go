@@ -189,6 +189,16 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 			shitAppend(erro)
 			defer rows.Close()
 		}
+		_, er := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+			"Goldfish",
+			user.Username,
+			0.2,
+			1.2,
+			"Toilette",
+			time.Now(),
+			"Net",
+			"Just the Beginning !")
+			shitAppend(er)
 
 		http.Redirect(rw, req, "/", http.StatusFound)
 	}

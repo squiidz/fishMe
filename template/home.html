@@ -42,8 +42,9 @@
                       <li><a href="#">Add new spot</a></li>
                     </ul>
               </div>
-                <button type="button" class="btn navbar-btn btn-success"><a href="#"></a>View Profile</button>
-                <button type="button" class="btn navbar-btn btn-success"><a href="/logout"></a>Log Out</button>
+
+                  <button type="button" class="btn navbar-btn btn-success"><a href="/home"></a>View Profile</button>
+                  <button type="button" class="btn navbar-btn btn-success"><a href="/logout"></a>Log Out</button>
 
               </div>
             </div>
@@ -74,7 +75,7 @@
             <span class="glyphicon glyphicon-plus"></span><a href="#"></a>
           </button>
         </div>
-    
+
               <div class="modal fade" id="addfish" tabindex="-1" role="dialog" aria-labelledby="addFishLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -93,6 +94,7 @@
                           <option>Barbue</option>
                           <option>Brochet</option>
                           <option>Esturgeon</option>
+                          <!--<option>Goldfish</option>-->
                           <option>Musky</option>
                           <option>Perchaude</option>
                           <option>Saumon</option>
@@ -147,10 +149,10 @@
                 </div>
               </div>
 
-<!-- ########## Add A fish Modal End ######### --> 
+<!-- ########## Add A fish Modal End ######### -->
 
         <div class="col-lg-6">
-  
+
 <!-- ########## Add A Spot Modal Begin ######### -->
           <h4>Add a new spot! </h4>
           <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#addspot">
@@ -180,7 +182,7 @@
                           <option>Truite</option>
                         </select>
                       </div>
-                      
+
                       <div class="form-group">
                         <label for="exampleInputEmail1">Username</label>
                         <input name="username" type="username" class="form-control" id="exampleInputEmail1" placeholder="Enter username" required>
@@ -233,10 +235,10 @@
                 </div>
               </div>
               </div>
-<!-- ########## Add A Spot Modal End ######### --> 
+<!-- ########## Add A Spot Modal End ######### -->
         </div>
       </div> <!-- Jumbotron End -->
-        
+
         {{range $fish := .}}
         <div class="span8">
           <div class="col-sm-8 col-md-4">
@@ -247,6 +249,7 @@
                   <!--<div class="">Type : {{$fish.Type}}</div>-->
                   <div class="spec">Pounds : {{$fish.Weight}}</div>
                   <div class="spec">Inches : {{$fish.Length}}</div>
+                  <div class="spec">Lure : {{$fish.Lure}}</div>
                   <div class="spec">Location : {{$fish.Location}}</div>
                   <div class="spec">Info : {{$fish.Info}}</div>
                   <div class="spec">Date : {{$fish.Date}}</div>
@@ -258,7 +261,7 @@
 
 
     </div> <!-- /container -->
-<!-- Futur Footer here 
+<!-- Futur Footer here
     <div class="navbar navbar-default navbar-static-bottom">
       <div class="footer">
         <p>&copy; FishMe.io 2014</p>
