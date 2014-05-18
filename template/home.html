@@ -89,10 +89,12 @@
                       <div class="form-group">
                         <label for="exampleInputUsername1">Espece</label>
                         <select name="type" class="form-control">
-                          <option>Barbue</option>
-                          <option>Musky</option>
                           <option>Achigan</option>
+                          <option>Barbue</option>
+                          <option>Brochet</option>
                           <option>Esturgeon</option>
+                          <option>Musky</option>
+                          <option>Perchaude</option>
                           <option>Saumon</option>
                           <option>Truite</option>
                         </select>
@@ -239,12 +241,13 @@
         <div class="span8">
           <div class="col-sm-8 col-md-4">
             <div class="thumbnail">
-              <img src="http://www.tropicalreefstore.com/freshwaterfish.jpg">
+              <img src="img/fish/{{$fish.Type}}.jpg">
               <div class="caption">
                 <h2 style="color: black">{{$fish.Type}}</h2>
                   <!--<div class="">Type : {{$fish.Type}}</div>-->
                   <div class="">Pounds : {{$fish.Weight}}</div>
                   <div class="">Inches : {{$fish.Length}}</div>
+                  <div class="">Location : {{$fish.Location}}</div>
                   <div class="">Info : {{$fish.Info}}</div>
                   <div class="">Date : {{$fish.Date}}</div>
               </div>
