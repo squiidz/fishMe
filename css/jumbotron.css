@@ -22,8 +22,20 @@ body {
 }
 .thumbnail {
   background-color: #212121;
-  border-left: 10px;
-  border-bottom: 10px;
+  border-top: 5px; 
+  border-right: 5px; 
+  border-left: 5px; 
+  border-bottom: 5px;
+  border-style: solid;
+  box-shadow: black;
+}
+.spec {
+  color: #FFFFFF;
+  font-weight: bold;
+  font-family: cursive;
+}
+img{
+  border-color: black;
 }
 .container-fluid {
     width: 970px;
