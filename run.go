@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	//"github.com/gorilla/sessions"
 	_ "github.com/lib/pq"
 	"html/template"
 	"io/ioutil"
@@ -51,7 +52,8 @@ func loadPage(title string) (*Page, error) {
 }
 
 func SetupDB() *sql.DB {
-	DB, err := sql.Open("postgres", "host=fishme.io user=squiidz password=Bazooka4me dbname=fishme sslmode=disable")
+	dbConfig, err := loadPage("article/dbconfig")
+	DB, err := sql.Open("postgres", string(dbConfig.Body))
 	shitAppend(err)
 	return DB
 }
@@ -62,6 +64,8 @@ func shitAppend(err error) {
 	}
 }
 
+//var store = sessions.NewCookieStore([]byte("squiidz"))
+
 func main() {
 	http.HandleFunc("/", Handler)
 	http.HandleFunc("/home", HomeHandler)
@@ -71,7 +75,7 @@ func main() {
 		http.HandleFunc("/Sign", SignUp)
 		http.HandleFunc("/addFish", FishForm)
 	*/
-
+	http.HandleFunc("/signin", SignIn)
 	http.HandleFunc("/add", AddUser)
 	http.HandleFunc("/fish", AddFish)
 
@@ -94,14 +98,21 @@ func Handler(rw http.ResponseWriter, req *http.Request) {
 }
 
 func HomeHandler(rw http.ResponseWriter, req *http.Request) {
-	file, err := loadPage("article/push")
-	shitAppend(err)
+	_, erro := loadPage("article/push")
+	shitAppend(erro)
 
 	temp, err := template.ParseFiles("template/home.html")
 	shitAppend(err)
 
 	fmt.Println("[*]Handling Request from : " + req.RemoteAddr)
-	temp.Execute(rw, file)
+
+	var cookie, er = req.Cookie("fishme")
+	if er == nil {
+		var cookievalue = cookie.Value
+		fmt.Println("[*]Get cookie value is " + cookievalue)
+	}
+
+	temp.Execute(rw, cookie.Value)
 }
 
 /*
@@ -121,6 +132,20 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 		temp.Execute(rw, newPage)
 	}
 */
+func SignIn(rw http.ResponseWriter, req *http.Request) {
+	db := SetupDB()
+	username := req.FormValue("username")
+	password := req.FormValue("password")
+	user := User{}
+	err := db.QueryRow("SELECT username,password FROM users WHERE username = $1 AND password = $2", username, password).Scan(&user.Username, &user.Password)
+	if err != nil {
+		http.Redirect(rw, req, "/", http.StatusFound)
+	}
+	expire := time.Now().AddDate(0, 0, 1)
+	cookie := http.Cookie{Name: "fishme", Value: user.Username, Path: "/", Expires: expire, MaxAge: 86400}
+	http.SetCookie(rw, &cookie)
+	http.Redirect(rw, req, "/home", http.StatusFound)
+}
 
 func AddUser(rw http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
@@ -130,10 +155,13 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 			Email:    req.FormValue("email"),
 			Password: req.FormValue("password"),
 			Date:     time.Now()}
+		err := db.QueryRow("SELECT * FROM users WHERE username = $1 AND email = $2", user.Username, user.Email)
+		if err != nil {
+			rows, erro := db.Query("INSERT INTO users(username, email, password, date) VALUES($1, $2, $3, $4)", user.Username, user.Email, user.Password, user.Date)
+			shitAppend(erro)
+			defer rows.Close()
+		}
 
-		rows, err := db.Query("INSERT INTO users(username, email, password, date) VALUES($1, $2, $3, $4)", user.Username, user.Email, user.Password, user.Date)
-		shitAppend(err)
-		defer rows.Close()
 		http.Redirect(rw, req, "/", http.StatusFound)
 	}
 }
