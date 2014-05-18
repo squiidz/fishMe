@@ -107,12 +107,14 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 	fmt.Println("[*]Handling Request from : " + req.RemoteAddr)
 
 	var cookie, er = req.Cookie("fishme")
-	if er == nil {
+	if er != nil {
+		http.Redirect(rw, req, "/", http.StatusFound)
+	} else {
 		var cookievalue = cookie.Value
 		fmt.Println("[*]Get cookie value is " + cookievalue)
+		temp.Execute(rw, cookie.Value)
 	}
 
-	temp.Execute(rw, cookie.Value)
 }
 
 /*
@@ -174,10 +176,12 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 		shitAppend(err)
 		long, err := strconv.ParseFloat(req.FormValue("length"), 32)
 		shitAppend(err)
+		var cookie, er = req.Cookie("fishme")
+		shitAppend(er)
 
 		fish := Fish{
 			Type:     req.FormValue("type"),
-			Username: req.FormValue("username"),
+			Username: cookie.Value,
 			Weight:   poid,
 			Length:   long,
 			Location: req.FormValue("location"),
