@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$("button").click(function(event) {
-		$("p").fadeOut();
+	$("h1").click(function(event) {
+		$(this).toggle()
 	});
 });

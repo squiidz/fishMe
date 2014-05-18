@@ -1,19 +1,120 @@
-<html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/script.js"></script>
-		
-		<title>{{.Title}}</title>
-	</head>
-	<body>
-		<div class="container-fluid">
-			<div class="jumbotron">
-				<p class="text">{{printf "%s" .Body}}</p>
-				<p class="text">Salut</p>
-				<button class="btn btn-primary">Click Me!</button>
-			</div>
-		</div>
-	</body>
+<!DOCTYPE HTML>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="">
+    <link href='favicon.ico' rel='icon' type='image/x-icon'/>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/jumbotron.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+    <title>FishMe!</title>
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">FishMe!</a>
+        </div>
+        <div class="navbar-collapse collapse in" style="height: 1px;">
+          <form class="navbar-form navbar-right" role="form" method="POST" action="/home">
+            <div class="form-group">
+              <input name="user" placeholder="Username" class="form-control" type="text">
+            </div>
+            <div class="form-group">
+              <input name="pass" placeholder="Password" class="form-control" type="password">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+
+    <div class="container">
+
+      <div class="jumbotron">
+
+        <h1>Join FishMe!</h1>
+        <p class="lead">Create your personal fishing logbook, for <span class="jumbo-username"><strong>FREE</strong></span> !<br>
+    Just a simple app to remember<br>your <span class="jumbo-username">biggest catches</span> and your <span class="jumbo-username">best fishing spots</span> !</p>
+        <form method="POST" action="/signup">
+          <button class="btn btn-lg btn-success" href="#" role="button">SignUp</button>
+        </form>
+      </div>
+
+      <script type="text/javascript">
+        $('.blur').blurjs({ source: 'body', radius: 5, overlay: '',  offset: { x: 0, y: 0 }, optClass: '', cache: false, cacheKeyPrefix: 'blurjs-', draggable: false });
+      </script>
+
+
+
+      <div class="row marketing blur">
+
+        <div class="col-lg-6">
+          <h4>Create your List</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+
+          <h4>Rank Fish of Friends</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Compare your Catches with Friends</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+
+        </div>
+
+        <div class="col-lg-6">
+
+          <h4>Share your Fishing Spots</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Rank Spots</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Share Pictures</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+
+        </div>
+      </div>
+
+
+
+      <div class="footer">
+        <p>© Company 2014</p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+
+
+
+</body>
 </html>
