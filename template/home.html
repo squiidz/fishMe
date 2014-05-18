@@ -43,7 +43,8 @@
                     </ul>
               </div>
                 <button type="button" class="btn navbar-btn btn-success"><a href="#"></a>View Profile</button>
-                <button type="button" class="btn navbar-btn btn-success"><a href="#"></a>Log Out</button>
+                <button type="button" class="btn navbar-btn btn-success"><a href="/logout"></a>Log Out</button>
+
               </div>
             </div>
           </div>
@@ -56,13 +57,17 @@
 
       <div class="jumbotron">
 <!--POUR LE USERNAME* -->
-        <h3>Welcome back, <span class="jumbo-username">{{.}}</span> !</h3>
+        <h3>Welcome back, <span class="jumbo-username">
+        {{$fish := index . 0}} <!-- Trouver une meilleur facons dafficher le user ! -->
+        {{$fish.Username}}
+        </span> !</h3>
 
 
 
       <div class="jumbotron">
 
         <div class="col-lg-6">
+
 <!-- ########## Add A fish Modal Begin ######### -->
           <h4>Add a new fish! </h4>
           <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#addfish">
@@ -225,15 +230,29 @@
                   </div>
                 </div>
               </div>
-
+              </div>
 <!-- ########## Add A Spot Modal End ######### --> 
         </div>
       </div> <!-- Jumbotron End -->
+        
+        {{range $fish := .}}
+        <div class="row">
+          <div class="col-sm-8 col-md-4">
+            <div class="thumbnail">
+              <img src="http://www.tropicalreefstore.com/freshwaterfish.jpg">
+              <div class="caption">
+                <h2 style="color: black">{{$fish.Type}}</h2>
+                  <!--<div class="">Type : {{$fish.Type}}</div>-->
+                  <div class="">Pounds : {{$fish.Weight}}</div>
+                  <div class="">Inches : {{$fish.Length}}</div>
+                  <div class="">Info : {{$fish.Info}}</div>
+                  <div class="">Date : {{$fish.Date}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{end}}
 
-
-
-      </div>
-    </div>
 
     </div> <!-- /container -->
 <!-- Futur Footer here 

@@ -25,6 +25,7 @@ type User struct {
 }
 
 type Fish struct {
+	Id       int
 	Type     string
 	Username string
 	Weight   float64
@@ -76,6 +77,7 @@ func main() {
 		http.HandleFunc("/addFish", FishForm)
 	*/
 	http.HandleFunc("/signin", SignIn)
+	http.HandleFunc("/logout", LogOut)
 	http.HandleFunc("/add", AddUser)
 	http.HandleFunc("/fish", AddFish)
 
@@ -98,21 +100,34 @@ func Handler(rw http.ResponseWriter, req *http.Request) {
 }
 
 func HomeHandler(rw http.ResponseWriter, req *http.Request) {
-	_, erro := loadPage("article/push")
-	shitAppend(erro)
-
+	fishes := [5]Fish{}
+	db := SetupDB()
 	temp, err := template.ParseFiles("template/home.html")
 	shitAppend(err)
-
 	fmt.Println("[*]Handling Request from : " + req.RemoteAddr)
 
 	var cookie, er = req.Cookie("fishme")
 	if er != nil {
 		http.Redirect(rw, req, "/", http.StatusFound)
 	} else {
-		var cookievalue = cookie.Value
-		fmt.Println("[*]Get cookie value is " + cookievalue)
-		temp.Execute(rw, cookie.Value)
+		cookieVal := cookie.Value
+		for loop := 0; loop < 5; loop++ {
+			err := db.QueryRow("SELECT * FROM fish WHERE username = $1 LIMIT 1 OFFSET $2", cookieVal, loop).Scan(
+				&fishes[loop].Id,
+				&fishes[loop].Type,
+				&fishes[loop].Username,
+				&fishes[loop].Weight,
+				&fishes[loop].Length,
+				&fishes[loop].Location,
+				&fishes[loop].Date,
+				&fishes[loop].Lure,
+				&fishes[loop].Info)
+			shitAppend(err)
+			fmt.Println(fishes[loop].Type)
+			fmt.Println(fishes[loop].Info)
+		}
+		fmt.Println("[*]Get cookie value is " + cookie.Value)
+		temp.Execute(rw, fishes)
 	}
 
 }
@@ -149,6 +164,12 @@ func SignIn(rw http.ResponseWriter, req *http.Request) {
 	http.Redirect(rw, req, "/home", http.StatusFound)
 }
 
+func LogOut(rw http.ResponseWriter, req *http.Request) {
+	cookie := http.Cookie{Name: "fishme", Path: "/", MaxAge: -1}
+	http.SetCookie(rw, &cookie)
+	http.Redirect(rw, req, "/", http.StatusFound)
+}
+
 func AddUser(rw http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
 		db := SetupDB()
@@ -157,6 +178,7 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 			Email:    req.FormValue("email"),
 			Password: req.FormValue("password"),
 			Date:     time.Now()}
+		// Query not working correctly, you can register a user who already exists !
 		err := db.QueryRow("SELECT * FROM users WHERE username = $1 AND email = $2", user.Username, user.Email)
 		if err != nil {
 			rows, erro := db.Query("INSERT INTO users(username, email, password, date) VALUES($1, $2, $3, $4)", user.Username, user.Email, user.Password, user.Date)
