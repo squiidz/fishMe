@@ -8,7 +8,7 @@ body {
 .navbar-brand {
   color: #FFFFFF;
   font-size: 36px;
-  font-family: impact;
+  font-family: 'Lobster', cursive;
 }
 
 
@@ -26,7 +26,7 @@ p, h4, h3 {
 }
 
 h1 {
-  font-family: impact;
+  font-family: 'Lobster', cursive;
 }
 
 h3 {
@@ -58,7 +58,7 @@ li {
   border-bottom: 1px solid #e5e5e5;
 }
 /* Make the masthead heading the same height as the navigation */
-.header h3 {
+.header, h3 {
   padding-bottom: 19px;
   margin-top: 0;
   margin-bottom: 0;
