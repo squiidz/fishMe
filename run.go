@@ -89,14 +89,12 @@ func main() {
 }
 
 func Handler(rw http.ResponseWriter, req *http.Request) {
-	file, err := loadPage("article/push")
-	shitAppend(err)
 
 	temp, err := template.ParseFiles("template/index.html")
 	shitAppend(err)
 
 	fmt.Println("[*]Handling Request from : " + req.RemoteAddr)
-	temp.Execute(rw, file)
+	temp.Execute(rw, nil)
 }
 
 func HomeHandler(rw http.ResponseWriter, req *http.Request) {
