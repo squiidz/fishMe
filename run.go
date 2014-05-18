@@ -100,7 +100,7 @@ func Handler(rw http.ResponseWriter, req *http.Request) {
 }
 
 func HomeHandler(rw http.ResponseWriter, req *http.Request) {
-	fishes := [5]Fish{}
+	fishes := make([]Fish, 20)
 	db := SetupDB()
 	temp, err := template.ParseFiles("template/home.html")
 	shitAppend(err)
@@ -111,7 +111,12 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 		http.Redirect(rw, req, "/", http.StatusFound)
 	} else {
 		cookieVal := cookie.Value
-		for loop := 0; loop < 5; loop++ {
+		var count int
+		err := db.QueryRow("SELECT COUNT(*) FROM fish WHERE username = $1", cookieVal).Scan(&count)
+		fmt.Println("#Number of Rows => ", count)
+		shitAppend(err)
+		for loop := 0; loop <= count; loop++ {
+			//fishes := append(fishes, make(Fish{}))
 			err := db.QueryRow("SELECT * FROM fish WHERE username = $1 LIMIT 1 OFFSET $2", cookieVal, loop).Scan(
 				&fishes[loop].Id,
 				&fishes[loop].Type,
@@ -126,6 +131,7 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 			fmt.Println(fishes[loop].Type)
 			fmt.Println(fishes[loop].Info)
 		}
+		fishes = fishes[0:count]
 		fmt.Println("[*]Get cookie value is " + cookie.Value)
 		temp.Execute(rw, fishes)
 	}

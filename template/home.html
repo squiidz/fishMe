@@ -57,7 +57,7 @@
 
       <div class="jumbotron">
 <!--POUR LE USERNAME* -->
-        <h3>Welcome back, <span class="jumbo-username">
+        <h3 style="font-family: 'Lobster', cursive;">Welcome back, <span class="jumbo-username">
         {{$fish := index . 0}} <!-- Trouver une meilleur facons dafficher le user ! -->
         {{$fish.Username}}
         </span> !</h3>
@@ -236,7 +236,7 @@
       </div> <!-- Jumbotron End -->
         
         {{range $fish := .}}
-        <div class="row">
+        <div class="span8">
           <div class="col-sm-8 col-md-4">
             <div class="thumbnail">
               <img src="http://www.tropicalreefstore.com/freshwaterfish.jpg">
