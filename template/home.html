@@ -33,10 +33,10 @@
         <div class="container">
             <div class="pull-right">
               <div class="btn-group">
-                <button type="button" class="btn btn-success navbar-btn"><a href="/"></a>Home</button>
+                <button type="button" class="btn btn-success navbar-btn"><a href="/home"></a>Home</button>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn navbar-btn btn-success dropdown-toggle" data-toggle="dropdown" id="addStuff"><a href="#"></a>Add Stuff  <b class="caret"></b></button>
+                <button type="button" class="btn navbar-btn btn-success dropdown-toggle" data-toggle="dropdown" id="addStuff"><a href="#"></a>Add Stuff<b class="caret"></b></button>
                     <ul class="dropdown-menu .addStuff" role="menu">
                       <li><a href="#">Add new fish</a></li>
                       <li><a href="#">Add new spot</a></li>
@@ -60,7 +60,7 @@
 
 
 
-      <div class="well">
+      <div class="jumbotron">
 
         <div class="col-lg-6">
 <!-- ########## Add A fish Modal Begin ######### -->
@@ -69,13 +69,13 @@
             <span class="glyphicon glyphicon-plus"></span><a href="#"></a>
           </button>
         </div>
-            </div>
+    
               <div class="modal fade" id="addfish" tabindex="-1" role="dialog" aria-labelledby="addFishLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h1 style="color: black;" class="modal-title" id="addFishLabel">Add a Fish</h1>
+                      <h2 style="color: black;" class="modal-title" id="addFishLabel">Add a Fish</h2>
                     </div>
                     <div class="modal-body">
                     <!-- Page de Creation de Poisson -->
@@ -148,12 +148,92 @@
 <!-- ########## Add A fish Modal End ######### --> 
 
         <div class="col-lg-6">
-            <h4>Add a new spot! </h4>
-              <button type="button" class="btn btn-sm btn-success">
-                <span class="glyphicon glyphicon-plus"></span><a href="#"></a>
-              </button>
+  
+<!-- ########## Add A Spot Modal Begin ######### -->
+          <h4>Add a new spot! </h4>
+          <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#addspot">
+            <span class="glyphicon glyphicon-plus"></span><a href="#"></a>
+          </button>
         </div>
+            </div>
+              <div class="modal fade" id="addspot" tabindex="-1" role="dialog" aria-labelledby="addSpotLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h2 style="color: black;" class="modal-title" id="addSpotLabel">Add a Spot</h2>
+                    </div>
+                    <div class="modal-body">
+                    <!-- Page de Creation de Poisson -->
+                    <form role="form" method="POST" action="/fish">
 
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Espece</label>
+                        <select name="type" class="form-control">
+                          <option>Barbue</option>
+                          <option>Musky</option>
+                          <option>Achigan</option>
+                          <option>Esturgeon</option>
+                          <option>Saumon</option>
+                          <option>Truite</option>
+                        </select>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Username</label>
+                        <input name="username" type="username" class="form-control" id="exampleInputEmail1" placeholder="Enter username" required>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Weigth</label>
+                        <input name="weigth" type="value" class="form-control" id="exampleInputPassword1" placeholder="Weigth" required>
+                      </div>
+
+                       <div class="form-group">
+                        <label for="exampleInputUsername1">Length</label>
+                        <input name="length" type="value" class="form-control" id="exampleInputEmail1" placeholder="Length" required>
+                      </div>
+
+                       <div class="form-group">
+                        <label for="exampleInputUsername1">Location</label>
+                        <input name="location" type="username" class="form-control" id="exampleInputEmail1" placeholder="Location" required>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Lure</label>
+                        <select name="lure" class="form-control">
+                          <option>Spiner-Bait</option>
+                          <option>Cuillere</option>
+                          <option>Jigger</option>
+                          <option>Worm</option>
+                          <option>Popper</option>
+                          <option>Jerk-Bait</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Note</label>
+                        <textarea name="info" type="username" class="form-control" id="exampleInputEmail1" placeholder="Some Note"></textarea>
+                      </div>
+                      <!--
+                      <div class="form-group">
+                        <label for="exampleInputFile">File input</label>
+                        <input type="file" id="exampleInputFile">
+                        <p class="help-block">Example block-level help text here.</p>
+                      </div>
+                      -->
+                      <button type="submit" class="btn btn-success">Submit</button>
+
+                    </form>
+                  <!-- Fin de la creation de compte -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+<!-- ########## Add A Spot Modal End ######### --> 
+        </div>
+      </div> <!-- Jumbotron End -->
 
 
 
@@ -161,11 +241,13 @@
     </div>
 
     </div> <!-- /container -->
-
-    <div class="footer">
-      <p>&copy; FishMe.io 2014</p>
+<!-- Futur Footer here 
+    <div class="navbar navbar-default navbar-static-bottom">
+      <div class="footer">
+        <p>&copy; FishMe.io 2014</p>
+      </div>
     </div>
-
+-->
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

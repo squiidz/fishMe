@@ -10,7 +10,16 @@ body {
   font-size: 36px;
   font-family: 'Lobster', cursive;
 }
-
+.navbar-static-bottom{
+  border-top: 10px;
+  border-right: 10px;
+  border-left: 10px;
+  border-bottom: 10px;
+  font-family: 'Lobster', cursive;
+  font-size: 16px;
+  background-color: #212121;
+  margin-top: 15px;
+}
 
 .container-fluid {
     width: 970px;
@@ -28,7 +37,10 @@ p, h4, h3 {
 h1 {
   font-family: 'Lobster', cursive;
 }
-
+h2 {
+  font-family: 'Lobster', cursive;
+  font-size: 38px;
+}
 h3 {
   font-family: impact;
   font-size: 42px; 

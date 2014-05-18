@@ -26,8 +26,8 @@ type User struct {
 type Fish struct {
 	Type     string
 	Username string
-	Weight   int
-	Length   int
+	Weight   float64
+	Length   float64
 	Location string
 	Date     time.Time
 	Lure     string
@@ -131,7 +131,7 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 			Password: req.FormValue("password"),
 			Date:     time.Now()}
 
-		rows, err := db.Query("INSERT INTO users VALUES($1, $2, $3, $4, $5)", 3, user.Username, user.Email, user.Password, user.Date)
+		rows, err := db.Query("INSERT INTO users(username, email, password, date) VALUES($1, $2, $3, $4)", user.Username, user.Email, user.Password, user.Date)
 		shitAppend(err)
 		defer rows.Close()
 		http.Redirect(rw, req, "/", http.StatusFound)
@@ -142,9 +142,9 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
 		db := SetupDB()
 
-		poid, err := strconv.Atoi(req.FormValue("weigth"))
+		poid, err := strconv.ParseFloat(req.FormValue("weigth"), 32)
 		shitAppend(err)
-		long, err := strconv.Atoi(req.FormValue("length"))
+		long, err := strconv.ParseFloat(req.FormValue("length"), 32)
 		shitAppend(err)
 
 		fish := Fish{
@@ -157,8 +157,7 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 			Lure:     req.FormValue("lure"),
 			Info:     req.FormValue("info")}
 
-		rows, err := db.Query("INSERT INTO fish VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-			8,
+		rows, err := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
 			fish.Type,
 			fish.Username,
 			fish.Weight,
@@ -169,7 +168,7 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 			fish.Info)
 		shitAppend(err)
 		defer rows.Close()
-		http.Redirect(rw, req, "/", http.StatusFound)
+		http.Redirect(rw, req, "/home", http.StatusFound)
 	}
 }
 
