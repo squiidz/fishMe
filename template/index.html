@@ -59,16 +59,43 @@
         <h1>Join FishMe!</h1>
         <p class="lead">Create your personal fishing logbook, for <span class="jumbo-username"><strong>FREE</strong></span> !<br>
     Just a simple app to remember<br>your <span class="jumbo-username">biggest catches</span> and your <span class="jumbo-username">best fishing spots</span> !</p>
-        <form method="POST" action="/signup">
-          <button class="btn btn-lg btn-success" href="#" role="button">SignUp</button>
-        </form>
+        <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#signup">
+          SignUp
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="signmodal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2  style="color: black;" class="modal-title" id="signmodal">SignUp</h2>
+              </div>
+              <div class="modal-body">
+                <form role="form" method="POST" action="/add">
+                  
+                  <div class="form-group">
+                    <label for="exampleInputUsername1">Username</label>
+                    <input name="username" type="username" class="form-control" id="exampleInputEmail1" placeholder="Username">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input name="email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  </div>
+
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <script type="text/javascript">
-        $('.blur').blurjs({ source: 'body', radius: 5, overlay: '',  offset: { x: 0, y: 0 }, optClass: '', cache: false, cacheKeyPrefix: 'blurjs-', draggable: false });
-      </script>
-
-
 
       <div class="row marketing blur">
 
@@ -97,8 +124,6 @@
           <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
 
         </div>
-      </div>
-
 
 
       <div class="footer">
@@ -116,5 +141,5 @@
 
 
 
-</body>
+  </body>
 </html>

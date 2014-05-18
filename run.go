@@ -34,10 +34,12 @@ type Fish struct {
 	Info     string
 }
 
-func (p *Page) save(path string) error {
-	filename := path + "/" + p.Title + ".pk"
-	return ioutil.WriteFile(filename, p.Body, 0600)
-}
+/*
+	func (p *Page) save(path string) error {
+		filename := path + "/" + p.Title + ".pk"
+		return ioutil.WriteFile(filename, p.Body, 0600)
+	}
+*/
 
 func loadPage(title string) (*Page, error) {
 	filename := title + ".pk"
@@ -61,11 +63,14 @@ func shitAppend(err error) {
 }
 
 func main() {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/home", homeHandler)
-	http.HandleFunc("/admin", adminHandler)
-	http.HandleFunc("/Sign", SignUp)
-	http.HandleFunc("/addFish", FishForm)
+	http.HandleFunc("/", Handler)
+	http.HandleFunc("/home", HomeHandler)
+	/*
+		http.HandleFunc("/home", homeHandler)
+		http.HandleFunc("/admin", adminHandler)
+		http.HandleFunc("/Sign", SignUp)
+		http.HandleFunc("/addFish", FishForm)
+	*/
 
 	http.HandleFunc("/add", AddUser)
 	http.HandleFunc("/fish", AddFish)
@@ -77,31 +82,45 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func handler(rw http.ResponseWriter, req *http.Request) {
+func Handler(rw http.ResponseWriter, req *http.Request) {
 	file, err := loadPage("article/push")
 	shitAppend(err)
 
-	temp, err := template.ParseFiles("template/push.html")
+	temp, err := template.ParseFiles("template/index.html")
 	shitAppend(err)
 
 	fmt.Println("[*]Handling Request from : " + req.RemoteAddr)
 	temp.Execute(rw, file)
 }
 
-func adminHandler(rw http.ResponseWriter, req *http.Request) {
-	temp, _ := template.ParseFiles("template/admin.html")
-	temp.Execute(rw, nil)
-	if req.Method == "POST" {
-		page := &Page{Title: req.FormValue("title"), Body: []byte(req.FormValue("content"))}
-		page.save("article")
-	}
+func HomeHandler(rw http.ResponseWriter, req *http.Request) {
+	file, err := loadPage("article/push")
+	shitAppend(err)
+
+	temp, err := template.ParseFiles("template/home.html")
+	shitAppend(err)
+
+	fmt.Println("[*]Handling Request from : " + req.RemoteAddr)
+	temp.Execute(rw, file)
 }
 
-func homeHandler(rw http.ResponseWriter, req *http.Request) {
-	newPage := &Page{"Your at Home", []byte("This is home !!")}
-	temp, _ := template.ParseFiles("template/home.html")
-	temp.Execute(rw, newPage)
-}
+/*
+	func adminHandler(rw http.ResponseWriter, req *http.Request) {
+		temp, _ := template.ParseFiles("template/admin.html")
+		temp.Execute(rw, nil)
+		if req.Method == "POST" {
+			page := &Page{Title: req.FormValue("title"), Body: []byte(req.FormValue("content"))}
+			page.save("article")
+		}
+	}
+
+
+	func homeHandler(rw http.ResponseWriter, req *http.Request) {
+		newPage := &Page{"Your at Home", []byte("This is home !!")}
+		temp, _ := template.ParseFiles("template/home.html")
+		temp.Execute(rw, newPage)
+	}
+*/
 
 func AddUser(rw http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
@@ -115,7 +134,7 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 		rows, err := db.Query("INSERT INTO users VALUES($1, $2, $3, $4, $5)", 3, user.Username, user.Email, user.Password, user.Date)
 		shitAppend(err)
 		defer rows.Close()
-		http.Redirect(rw, req, "/", 200)
+		http.Redirect(rw, req, "/", http.StatusFound)
 	}
 }
 
@@ -150,16 +169,18 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 			fish.Info)
 		shitAppend(err)
 		defer rows.Close()
-		http.Redirect(rw, req, "/", 200)
+		http.Redirect(rw, req, "/", http.StatusFound)
 	}
 }
 
-func FishForm(rw http.ResponseWriter, req *http.Request) {
-	temp, _ := template.ParseFiles("template/fish.html")
-	temp.Execute(rw, nil)
-}
+/*
+	func FishForm(rw http.ResponseWriter, req *http.Request) {
+		temp, _ := template.ParseFiles("template/fish.html")
+		temp.Execute(rw, nil)
+	}
 
-func SignUp(rw http.ResponseWriter, req *http.Request) {
-	temp, _ := template.ParseFiles("template/add.html")
-	temp.Execute(rw, nil)
-}
+	func SignUp(rw http.ResponseWriter, req *http.Request) {
+		temp, _ := template.ParseFiles("template/add.html")
+		temp.Execute(rw, nil)
+	}
+*/
