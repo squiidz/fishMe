@@ -2,9 +2,7 @@ package handle
 
 import (
 	"PushKids/module/database"
-	//"database/sql"
 	"fmt"
-	//_ "github.com/lib/pq"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -149,26 +147,38 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 			Email:    req.FormValue("email"),
 			Password: req.FormValue("password"),
 			Date:     time.Now()}
-		// Query not working correctly, you can register a user who already exists !
-		err := db.QueryRow("SELECT * FROM users WHERE username = $1 AND email = $2", user.Username, user.Email)
-		if err != nil {
-			rows, erro := db.Query("INSERT INTO users(username, email, password, date) VALUES($1, $2, $3, $4)", user.Username, user.Email, user.Password, user.Date)
+
+		var userCheck, mailCheck string
+
+		err := db.QueryRow("SELECT username, email FROM users WHERE username = $1 AND email= $2", user.Username, user.Email).Scan(&userCheck, &mailCheck)
+		shitAppend(err)
+		if userCheck != "" {
+			http.Redirect(rw, req, "/", http.StatusFound)
+
+		} else {
+			rows, erro := db.Query("INSERT INTO users(username, email, password, date) VALUES($1, $2, $3, $4)",
+				user.Username,
+				user.Email,
+				user.Password,
+				user.Date)
+
 			shitAppend(erro)
 			defer rows.Close()
-		}
-		timeNow := time.Now().Format(time.RFC822)
-		_, er := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
-			"Goldfish",
-			user.Username,
-			0.2,
-			1.2,
-			"Toilette",
-			timeNow,
-			"Net",
-			"Just the Beginning !")
-		shitAppend(er)
 
-		http.Redirect(rw, req, "/", http.StatusFound)
+			timeNow := time.Now().Format(time.RFC822)
+			_, er := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+				"Goldfish",
+				user.Username,
+				0.2,
+				1.2,
+				"Toilette",
+				timeNow,
+				"Net",
+				"Just the Beginning !")
+			shitAppend(er)
+
+			http.Redirect(rw, req, "/", http.StatusFound)
+		}
 	}
 }
 
