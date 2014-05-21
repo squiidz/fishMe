@@ -20,11 +20,19 @@ body {
   background-color: #212121;
   margin-top: 15px;
 }
+label{
+  color: black;
+  font-family: 'Lobster', cursive;
+  font-size: 18px;
+}
+.form-control{
+
+}
 .thumbnail {
   background-color: #212121;
-  border-top: 5px; 
-  border-right: 5px; 
-  border-left: 5px; 
+  border-top: 5px;
+  border-right: 5px;
+  border-left: 5px;
   border-bottom: 5px;
   border-style: solid;
   box-shadow: black;
@@ -59,7 +67,7 @@ h2 {
 }
 h3 {
   font-family: impact;
-  font-size: 42px; 
+  font-size: 42px;
 }
 
 li {
