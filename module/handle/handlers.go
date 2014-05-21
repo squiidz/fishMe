@@ -152,7 +152,7 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 
 		err := db.QueryRow("SELECT username, email FROM users WHERE username = $1 AND email= $2", user.Username, user.Email).Scan(&userCheck, &mailCheck)
 		shitAppend(err)
-		if userCheck != "" {
+		if userCheck != "" || mailCheck != "" {
 			http.Redirect(rw, req, "/", http.StatusFound)
 
 		} else {
