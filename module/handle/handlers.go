@@ -148,7 +148,7 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 
 			utility.ShitAppend(erro)
 			defer rows.Close()
-
+			utility.Mkdir("img/users/" + user.Username)
 			timeNow := time.Now().Format(time.RFC822)
 			_, er := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info, picture) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)",
 				"Goldfish",
@@ -171,15 +171,22 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
 		var cookie, er = req.Cookie("fishme")
 		utility.ShitAppend(er)
+		species := req.FormValue("type")
+		var path string
 		// Picture Upload
 		file, handler, err := req.FormFile("picture")
 		utility.ShitAppend(err)
-		data, err := ioutil.ReadAll(file)
-		utility.ShitAppend(err)
-		path := "img/users/" + handler.Filename
-		err = ioutil.WriteFile("img/users/"+handler.Filename, data, 0777)
-		utility.ShitAppend(err)
-		resize.ResizeMe(path)
+		if err != nil {
+			fmt.Println("[*] NO PICTURE UPLOADED")
+			path = "img/fish/" + species + ".jpg"
+		} else {
+			data, err := ioutil.ReadAll(file)
+			utility.ShitAppend(err)
+			path = "img/users/" + cookie.Value + "/" + handler.Filename
+			err = ioutil.WriteFile(path, data, 0777)
+			utility.ShitAppend(err)
+			resize.ResizeMe(path)
+		}
 		// End
 
 		poid, err := strconv.ParseFloat(req.FormValue("weigth"), 32)
@@ -192,7 +199,7 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 		fmt.Println(timeNow)
 
 		fish := Fish{
-			Type:     req.FormValue("type"),
+			Type:     species,
 			Username: cookie.Value,
 			Weight:   poid,
 			Length:   long,
@@ -211,7 +218,7 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 			fish.Date,
 			fish.Lure,
 			fish.Info,
-			path)
+			fish.Picture)
 		utility.ShitAppend(err)
 		defer rows.Close()
 		http.Redirect(rw, req, "/home", http.StatusFound)

@@ -3,6 +3,7 @@ package utility
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 )
 
 type Page struct {
@@ -23,6 +24,15 @@ func LoadPage(title string) (*Page, error) {
 		return nil, err
 	}
 	return &Page{Title: title, Body: body}, nil
+}
+
+func Mkdir(name string) {
+	err := os.Mkdir(name, 0777)
+	if err != nil {
+		fmt.Println("[*] ERROR WHEN CREATING DIRECTORY : " + name)
+	} else {
+		fmt.Println("[+] DIRECTORY CREATED => " + name)
+	}
 }
 
 func SaveFile(data string) {
