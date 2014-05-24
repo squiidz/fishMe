@@ -101,7 +101,7 @@
                     </div>
                     <div class="modal-body">
                     <!-- Page de Creation de Poisson -->
-                    <form role="form" method="POST" action="/fish">
+                    <form role="form" method="POST" action="/fish" enctype="multipart/form-data">
 
                       <div class="form-group">
                         <label for="exampleInputUsername1">Species</label>
@@ -164,7 +164,7 @@
                       <button type="submit" class="btn btn-success">Submit</button>
 
                     </form>
-                  <!-- Fin de la creation de compte -->
+                  <!-- Fin de la creation de Poisson -->
                     </div>
                   </div>
                 </div>
@@ -265,7 +265,7 @@
         <div class="span8" id="draggable">
           <div class="col-sm-8 col-md-3">
             <div class="thumbnail">
-              <img src="img/fish/{{$fish.Type}}.jpg">
+              <img src="{{$fish.Picture}}">
               <div class="caption">
                 <h2 style="color: #FFFFFF">{{$fish.Type}}</h2>
                   <!--<div class="">Type : {{$fish.Type}}</div>-->

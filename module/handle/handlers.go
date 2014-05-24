@@ -2,6 +2,8 @@ package handle
 
 import (
 	"PushKids/module/database"
+	"PushKids/module/resize"
+	"PushKids/module/utility"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -9,11 +11,6 @@ import (
 	"strconv"
 	"time"
 )
-
-type Page struct {
-	Title string
-	Body  []byte
-}
 
 type User struct {
 	Username string
@@ -32,29 +29,10 @@ type Fish struct {
 	Date     string
 	Lure     string
 	Info     string
+	Picture  string
 }
 
 var db = database.SetupDB()
-
-func saveLog(data string) {
-	dateTime := time.Now()
-	ioutil.WriteFile("/article/log"+string(dateTime.Day())+".txt", []byte(data), 0600)
-}
-
-func loadPage(title string) (*Page, error) {
-	filename := title + ".pk"
-	body, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-	return &Page{Title: title, Body: body}, nil
-}
-
-func shitAppend(err error) {
-	if err != nil {
-		fmt.Println(err)
-	}
-}
 
 func Handler(rw http.ResponseWriter, req *http.Request) {
 	if req.URL.Path != "/" { // Check if the request is for the root
@@ -63,18 +41,18 @@ func Handler(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	temp, err := template.ParseFiles("template/index.html")
-	shitAppend(err)
+	utility.ShitAppend(err)
 
 	fmt.Println("[*]Handling Request from : " + req.RemoteAddr)
 	var _, er = req.Cookie("fishme")
 	if er != nil {
-		signin, err := loadPage("article/signin")
-		shitAppend(err)
+		signin, err := utility.LoadPage("article/signin")
+		utility.ShitAppend(err)
 		SignButton := template.HTML(string(signin.Body))
 		temp.Execute(rw, SignButton)
 	} else {
-		home, err := loadPage("article/home")
-		shitAppend(err)
+		home, err := utility.LoadPage("article/home")
+		utility.ShitAppend(err)
 		HomeButton := template.HTML(string(home.Body))
 		temp.Execute(rw, HomeButton)
 	}
@@ -84,7 +62,7 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 	fishes := make([]Fish, 20)
 
 	temp, err := template.ParseFiles("template/home.html")
-	shitAppend(err)
+	utility.ShitAppend(err)
 	fmt.Println("[*]Handling Request from : " + req.RemoteAddr + " At [/home]")
 
 	var cookie, er = req.Cookie("fishme")
@@ -95,7 +73,7 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 		cookieVal := cookie.Value
 		var count int
 		err := db.QueryRow("SELECT COUNT(*) FROM fish WHERE username = $1", cookieVal).Scan(&count)
-		shitAppend(err)
+		utility.ShitAppend(err)
 		for loop := 0; loop <= count; loop++ {
 			//fishes := append(fishes, make(Fish{}))
 			err := db.QueryRow("SELECT * FROM fish WHERE username = $1 LIMIT 1 OFFSET $2", cookieVal, loop).Scan(
@@ -107,8 +85,14 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 				&fishes[loop].Location,
 				&fishes[loop].Date,
 				&fishes[loop].Lure,
-				&fishes[loop].Info)
-			shitAppend(err)
+				&fishes[loop].Info,
+				&fishes[loop].Picture)
+
+			if fishes[loop].Picture == "" {
+				fishes[loop].Picture = "img/fish/" + fishes[loop].Type + ".jpg"
+			}
+
+			utility.ShitAppend(err)
 			fmt.Println("[*] Fish => " + fishes[loop].Type + " loaded")
 		}
 		fishes = fishes[0:count]
@@ -151,7 +135,7 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 		var userCheck, mailCheck string
 
 		err := db.QueryRow("SELECT username, email FROM users WHERE username = $1 AND email= $2", user.Username, user.Email).Scan(&userCheck, &mailCheck)
-		shitAppend(err)
+		utility.ShitAppend(err)
 		if userCheck != "" || mailCheck != "" {
 			http.Redirect(rw, req, "/", http.StatusFound)
 
@@ -162,11 +146,11 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 				user.Password,
 				user.Date)
 
-			shitAppend(erro)
+			utility.ShitAppend(erro)
 			defer rows.Close()
 
 			timeNow := time.Now().Format(time.RFC822)
-			_, er := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+			_, er := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info, picture) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)",
 				"Goldfish",
 				user.Username,
 				0.2,
@@ -174,8 +158,9 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 				"Toilette",
 				timeNow,
 				"Net",
-				"Just the Beginning !")
-			shitAppend(er)
+				"Just the Beginning !",
+				"")
+			utility.ShitAppend(er)
 
 			http.Redirect(rw, req, "/", http.StatusFound)
 		}
@@ -184,15 +169,28 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 
 func AddFish(rw http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
+		var cookie, er = req.Cookie("fishme")
+		utility.ShitAppend(er)
+		// Picture Upload
+		file, handler, err := req.FormFile("picture")
+		utility.ShitAppend(err)
+		data, err := ioutil.ReadAll(file)
+		utility.ShitAppend(err)
+		path := "img/users/" + handler.Filename
+		err = ioutil.WriteFile("img/users/"+handler.Filename, data, 0777)
+		utility.ShitAppend(err)
+		resize.ResizeMe(path)
+		// End
 
 		poid, err := strconv.ParseFloat(req.FormValue("weigth"), 32)
-		shitAppend(err)
+		utility.ShitAppend(err)
+
 		long, err := strconv.ParseFloat(req.FormValue("length"), 32)
-		shitAppend(err)
-		var cookie, er = req.Cookie("fishme")
-		shitAppend(er)
+		utility.ShitAppend(err)
+
 		timeNow := time.Now().Format(time.RFC822)
 		fmt.Println(timeNow)
+
 		fish := Fish{
 			Type:     req.FormValue("type"),
 			Username: cookie.Value,
@@ -201,9 +199,10 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 			Location: req.FormValue("location"),
 			Date:     timeNow,
 			Lure:     req.FormValue("lure"),
-			Info:     req.FormValue("info")}
+			Info:     req.FormValue("info"),
+			Picture:  path}
 
-		rows, err := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+		rows, err := db.Query("INSERT INTO fish(type, username, weight, length, location, date, lure, info, picture) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)",
 			fish.Type,
 			fish.Username,
 			fish.Weight,
@@ -211,8 +210,9 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 			fish.Location,
 			fish.Date,
 			fish.Lure,
-			fish.Info)
-		shitAppend(err)
+			fish.Info,
+			path)
+		utility.ShitAppend(err)
 		defer rows.Close()
 		http.Redirect(rw, req, "/home", http.StatusFound)
 	}
