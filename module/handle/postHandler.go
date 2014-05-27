@@ -5,7 +5,7 @@ import (
 	"PushKids/module/utility"
 	"io/ioutil"
 	"net/http"
-	"os"
+	//"os"
 	"strconv"
 	"time"
 )
@@ -142,8 +142,8 @@ func DeleteFish(rw http.ResponseWriter, req *http.Request) {
 	_, err = db.Query("DELETE FROM fish WHERE id = $1", fish.Id)
 	utility.ShitAppend(err)
 
-	err = os.Remove(fish.Picture)
-	utility.ShitAppend(err)
+	//err = os.Remove(fish.Picture)
+	//utility.ShitAppend(err)
 
 	http.Redirect(rw, req, "/home", http.StatusFound)
 }

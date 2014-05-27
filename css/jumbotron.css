@@ -128,7 +128,7 @@ li {
   color: #FFFFFF;
   background-color: #212121;
 }
-.jumbotron .btn {
+.jumbotron #addStuff {
   padding: 14px 24px;
   font-size: 21px;
 }

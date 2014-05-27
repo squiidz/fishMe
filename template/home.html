@@ -18,7 +18,7 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
+    <script src="js/script.js"> </script>
     <title>FishMe! | Home</title>
 
   </head>
@@ -71,14 +71,13 @@
         </span> !</h3>
 
 
-
       <div class="jumbotron">
 
         <div class="col-lg-6">
 
 <!-- ########## Add A fish Modal Begin ######### -->
           <h4>Add a new fish! </h4>
-          <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#addfish">
+          <button id="addStuff" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addfish">
             <span class="glyphicon glyphicon-plus"></span><a href="#"></a>
           </button>
         </div>
@@ -87,7 +86,7 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       <h2 style="color: black;" class="modal-title" id="addFishLabel">Add a Fish</h2>
                     </div>
                     <div class="modal-body">
@@ -101,7 +100,6 @@
                           <option>Barbue</option>
                           <option>Brochet</option>
                           <option>Esturgeon</option>
-                          <!--<option>Goldfish</option>-->
                           <option>Musky</option>
                           <option>Perchaude</option>
                           <option>Saumon</option>
@@ -142,7 +140,13 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="col-sm-1">Location</label>
-                            <input name="location" type="username" class="form-control" id="exampleInputEmail1" placeholder="Location" required>
+                    
+                            <div class="input-append">
+                              <input id="place" type="text" class="form-control" placeholder="Location" required>
+                              <button type="button" class="btn btn-success" onclick="getLocation()">FindMe</button>
+                              <input id="findme" name="location" type="text" hidden> <!-- Just to Get the Coordination -->
+                            </div>
+                            
                           </div>
                         </div>
                       
@@ -160,7 +164,7 @@
 
                       <button type="submit" class="btn btn-success">Submit</button>
 
-                    </form>
+                   </form>
                   <!-- Fin de la creation de Poisson -->
                     </div>
                   </div>
@@ -173,7 +177,7 @@
 
 <!-- ########## Add A Spot Modal Begin ######### -->
           <h4>Add a new spot! </h4>
-          <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#addspot">
+          <button id="addStuff" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addspot">
             <span class="glyphicon glyphicon-plus"></span><a href="#"></a>
           </button>
         </div>
