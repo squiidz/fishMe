@@ -52,6 +52,9 @@
               <div class="btn-group">
                 <a type="button" class="btn btn-success navbar-btn" href="/home">Home</a>
               </div>
+              
+              <a type="button" class="btn navbar-btn btn-success"  href="/profil">Profil</a>
+
               <div class="btn-group">
                 <button type="button" class="btn navbar-btn btn-success dropdown-toggle" data-toggle="dropdown" id="addStuff"><a href="#"></a>Add Stuff<b class="caret"></b></button>
                     <ul class="dropdown-menu .addStuff" role="menu">
@@ -60,7 +63,6 @@
                     </ul>
               </div>
 
-                  <button type="button" class="btn navbar-btn btn-success"><a href="/home"></a>View Profile</button>
                   <a type="button" class="btn navbar-btn btn-success" href="/logout">Log Out</a>
 
               </div>
@@ -267,14 +269,20 @@
             <div class="thumbnail">
               <img src="{{$fish.Picture}}">
               <div class="caption">
-                <h2 style="color: #FFFFFF">{{$fish.Type}}</h2>
+                
+                <h2 style="color: #FFFFFF" name="type">{{$fish.Type}}</h2>
                   <!--<div class="">Type : {{$fish.Type}}</div>-->
-                  <div class="spec">Pounds : {{$fish.Weight}}</div>
-                  <div class="spec">Inches : {{$fish.Length}}</div>
-                  <div class="spec">Lure : {{$fish.Lure}}</div>
-                  <div class="spec">Location : {{$fish.Location}}</div>
-                  <div class="spec">Info : {{$fish.Info}}</div>
-                  <div class="spec">Date : {{$fish.Date}}</div>
+                  <div class="spec" name="weight">Pounds : {{$fish.Weight}}</div>
+                  <div class="spec" name="length">Inches : {{$fish.Length}}</div>
+                  <div class="spec" name="lure">Lure : {{$fish.Lure}}</div>
+                  <div class="spec" name="location">Location : {{$fish.Location}}</div>
+                  <div class="spec" name="info">Info : {{$fish.Info}}</div>
+                  <div class="spec" name="date">Date : {{$fish.Date}}</div>
+                  
+                  <form action="/delete" method="POST">
+                    <input name="type" type="text" value="{{$fish.Type}}" hidden>
+                    <button class="btn btn-success" type="submit">Remove</button>
+                  </form>
               </div>
             </div>
           </div>

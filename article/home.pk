@@ -15,15 +15,17 @@
               <div class="btn-group">
                 <a type="button" class="btn btn-success navbar-btn" href="/home">Home</a>
               </div>
+
+              <a type="button" class="btn navbar-btn btn-success"  href="/profil">Profil</a>
+              
               <div class="btn-group">
                 <button type="button" class="btn navbar-btn btn-success dropdown-toggle" data-toggle="dropdown" id="addStuff"><a href="#"></a>Add Stuff<b class="caret"></b></button>
                     <ul class="dropdown-menu .addStuff" role="menu">
-                      <li><a href="#">Add new fish</a></li>
-                      <li><a href="#">Add new spot</a></li>
+                      <li><a href="/home">Add new fish</a></li>
+                      <li><a href="/home">Add new spot</a></li>
                     </ul>
               </div>
 
-                  <button type="button" class="btn navbar-btn btn-success"><a href="/home"></a>View Profile</button>
                   <a type="button" class="btn navbar-btn btn-success" href="/logout">Log Out</a>
 
               </div>
