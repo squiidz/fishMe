@@ -8,26 +8,23 @@ import (
 )
 
 func Handler(rw http.ResponseWriter, req *http.Request) {
+
 	if req.URL.Path != "/" { // Check if the request is for the root
 		http.NotFound(rw, req)
 		return
 	}
 
-	temp, err := template.ParseFiles("template/index.html")
-	utility.ShitAppend(err)
-
-	log.Println("[*]Handling Request from : " + req.RemoteAddr)
 	var _, er = req.Cookie("fishme")
+	log.Println("[*]Handling Request from : " + req.RemoteAddr)
+
 	if er != nil {
+		temp, err := template.ParseFiles("template/index.html")
 		signin, err := utility.LoadPage("article/signin")
 		utility.ShitAppend(err)
 		SignButton := template.HTML(string(signin.Body))
 		temp.Execute(rw, SignButton)
 	} else {
-		home, err := utility.LoadPage("article/home")
-		utility.ShitAppend(err)
-		HomeButton := template.HTML(string(home.Body))
-		temp.Execute(rw, HomeButton)
+		http.Redirect(rw, req, "/home", http.StatusFound)
 	}
 }
 

@@ -134,19 +134,14 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 }
 
 func DeleteFish(rw http.ResponseWriter, req *http.Request) {
-	cook, err := req.Cookie("fishme")
 
-	fish := Fish{
-		Type:     req.FormValue("type"),
-		Username: cook.Value,
-		Weight:   0,
-		Length:   0,
-		Location: req.FormValue("location"),
-		Date:     req.FormValue("date"),
-		Lure:     req.FormValue("lure"),
-		Info:     req.FormValue("info"),
-	}
-	_, err = db.Query("DELETE FROM fish WHERE username = $1 AND type = $2", fish.Username, fish.Type)
+	id, err := strconv.Atoi(req.FormValue("id"))
 	utility.ShitAppend(err)
+
+	fish := Fish{Id: id}
+
+	_, err = db.Query("DELETE FROM fish WHERE id = $1", fish.Id)
+	utility.ShitAppend(err)
+
 	http.Redirect(rw, req, "/home", http.StatusFound)
 }
