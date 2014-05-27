@@ -3,9 +3,9 @@ package handle
 import (
 	"PushKids/module/resize"
 	"PushKids/module/utility"
-	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 )
@@ -85,7 +85,6 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 		file, handler, err := req.FormFile("picture")
 		utility.ShitAppend(err)
 		if err != nil {
-			fmt.Println("[*] NO PICTURE UPLOADED")
 			path = "img/fish/" + species + ".jpg"
 		} else {
 			data, err := ioutil.ReadAll(file)
@@ -104,7 +103,6 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 		utility.ShitAppend(err)
 
 		timeNow := time.Now().Format(time.RFC822)
-		fmt.Println(timeNow)
 
 		fish := Fish{
 			Type:     species,
@@ -135,12 +133,16 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 
 func DeleteFish(rw http.ResponseWriter, req *http.Request) {
 
+	picture := req.FormValue("picture")
 	id, err := strconv.Atoi(req.FormValue("id"))
 	utility.ShitAppend(err)
 
-	fish := Fish{Id: id}
+	fish := Fish{Id: id, Picture: picture}
 
 	_, err = db.Query("DELETE FROM fish WHERE id = $1", fish.Id)
+	utility.ShitAppend(err)
+
+	err = os.Remove(fish.Picture)
 	utility.ShitAppend(err)
 
 	http.Redirect(rw, req, "/home", http.StatusFound)

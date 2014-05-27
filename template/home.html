@@ -10,6 +10,7 @@
     <link href='favicon.ico' rel='icon' type='image/x-icon'/>
     <!-- Fonts Link -->
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -17,21 +18,9 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
     <title>FishMe! | Home</title>
-    <!--  Test Draggable
-    <script>
-      $(document).ready(function() {
-        $("#sortable").sortable({
-          revert: true
-        });
-        $("#draggable").draggable({
-          connectToSortable: "#sortable",
-          helper: "clone",
-          revert: "invalid"
-        });
-      });
-    </script>
-   Fin test -->
+
   </head>
 
   <body>
@@ -106,7 +95,7 @@
                     <form role="form" method="POST" action="/fish" enctype="multipart/form-data">
 
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Species</label>
+                        <label class="col-sm-1">Species</label>
                         <select name="type" class="form-control">
                           <option>Achigan</option>
                           <option>Barbue</option>
@@ -119,50 +108,56 @@
                           <option>Truite</option>
                         </select>
                       </div>
+                      
+                      <div class="row">
+
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="col-sm-1">Weigth</label>
+                            <input name="weigth" type="value" class="form-control" id="exampleInputPassword1" placeholder="Weigth" required>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="col-sm-1">Length</label>
+                            <input name="length" type="value" class="form-control" id="exampleInputEmail1" placeholder="Length" required>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="col-sm-1">Lure</label>
+                            <select name="lure" class="form-control">
+                              <option>Spiner-Bait</option>
+                              <option>Cuillere</option>
+                              <option>Jigger</option>
+                              <option>Worm</option>
+                              <option>Popper</option>
+                              <option>Jerk-Bait</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="col-sm-1">Location</label>
+                            <input name="location" type="username" class="form-control" id="exampleInputEmail1" placeholder="Location" required>
+                          </div>
+                        </div>
+                      
+                      </div>
 
                       <div class="form-group">
-                        <label for="exampleInputPassword1">Weigth</label>
-                        <input name="weigth" type="value" class="form-control" id="exampleInputPassword1" placeholder="Weigth" required>
-                      </div>
-
-                       <div class="form-group">
-                        <label for="exampleInputUsername1">Length</label>
-                        <input name="length" type="value" class="form-control" id="exampleInputEmail1" placeholder="Length" required>
-                      </div>
-
-                       <div class="form-group">
-                        <label for="exampleInputUsername1">Location</label>
-                        <input name="location" type="username" class="form-control" id="exampleInputEmail1" placeholder="Location" required>
+                        <label>File input</label>
+                        <input name="picture" type="file">
                       </div>
 
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Lure</label>
-                        <select name="lure" class="form-control">
-                          <option>Spiner-Bait</option>
-                          <option>Cuillere</option>
-                          <option>Jigger</option>
-                          <option>Worm</option>
-                          <option>Popper</option>
-                          <option>Jerk-Bait</option>
-                        </select>
+                        <label class="col-sm-1">Note</label>
+                        <textarea name="info" type="username" class="form-control" placeholder="Some Note" rows="4"></textarea>
                       </div>
 
-                      <div>
-                        <label for="fileinput">Picture</label>
-                          <input name="picture" type="file">
-                      </div>
-
-                      <div class="form-group">
-                        <label for="exampleInputUsername1">Note</label>
-                        <textarea name="info" type="username" class="form-control" id="exampleInputEmail1" placeholder="Some Note"></textarea>
-                      </div>
-                      <!--
-                      <div class="form-group">
-                        <label for="exampleInputFile">File input</label>
-                        <input type="file" id="exampleInputFile">
-                        <p class="help-block">Example block-level help text here.</p>
-                      </div>
-                      -->
                       <button type="submit" class="btn btn-success">Submit</button>
 
                     </form>
@@ -281,6 +276,7 @@
                   
                   <form action="/delete" method="POST">
                     <input name="id" type="text" value="{{$fish.Id}}" hidden>
+                    <input name="picture" type="text" value="{{$fish.Picture}}" hidden>
                     <button class="btn btn-success" type="submit">Remove</button>
                   </form>
               </div>

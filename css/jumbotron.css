@@ -5,6 +5,10 @@ body {
   background-image: url("../img/fisherman.jpg");
   background-size: cover;
 }
+textarea {
+  resize: none;
+}
+
 .navbar-brand {
   color: #FFFFFF;
   font-size: 36px;
@@ -23,7 +27,7 @@ body {
 label{
   color: black;
   font-family: 'Lobster', cursive;
-  font-size: 18px;
+  font-size: 22px;
 }
 .form-control{
 
@@ -39,8 +43,7 @@ label{
 }
 .spec {
   color: #FFFFFF;
-  font-weight: bold;
-  font-family: cursive;
+  font-family: 'Roboto Slab', cursive;
 }
 img{
   border-color: black;
