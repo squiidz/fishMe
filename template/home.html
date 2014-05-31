@@ -16,6 +16,9 @@
     <!-- Custom styles for this template -->
     <link href="css/jumbotron.css" type="text/css" rel="stylesheet">
 
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?">
+    </script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/script.js"> </script>
@@ -142,9 +145,8 @@
                             <label class="col-sm-1">Location</label>
                     
                             <div class="input-append">
-                              <input id="place" type="text" class="form-control" placeholder="Location" required>
-                              <button type="button" class="btn btn-success" onclick="getLocation()">FindMe</button>
-                              <input id="findme" name="location" type="text" hidden> <!-- Just to Get the Coordination -->
+                              <input id="findme" name="location" type="text" class="form-control" placeholder="Location" required>
+                              <button type="button" class="btn btn-success" onclick="getLocation()">FindMe</button> <!-- Just to Get the Coor -->
                             </div>
                             
                           </div>
@@ -274,20 +276,23 @@
                   <div class="spec" name="weight">Pounds : {{$fish.Weight}}</div>
                   <div class="spec" name="length">Inches : {{$fish.Length}}</div>
                   <div class="spec" name="lure">Lure : {{$fish.Lure}}</div>
-                  <div class="spec" name="location">Location : {{$fish.Location}}</div>
+                  <div id="catchPos" class="spec" name="location">Location : {{$fish.Location}}</div>
                   <div class="spec" name="info">Info : {{$fish.Info}}</div>
                   <div class="spec" name="date">Date : {{$fish.Date}}</div>
                   
                   <form action="/delete" method="POST">
                     <input name="id" type="text" value="{{$fish.Id}}" hidden>
+                    <input name="type" type="text" value="{{$fish.Type}}" hidden>
                     <input name="picture" type="text" value="{{$fish.Picture}}" hidden>
                     <button class="btn btn-success" type="submit">Remove</button>
+                    <button class="btn btn-primary" type="button">On Map</button>
                   </form>
               </div>
             </div>
           </div>
         </div>
         {{end}}
+
 
     </div> <!-- /container -->
 <!-- Futur Footer here

@@ -5,7 +5,6 @@ import (
 	"PushKids/module/utility"
 	"io/ioutil"
 	"net/http"
-	//"os"
 	"strconv"
 	"time"
 )
@@ -18,11 +17,12 @@ func SignIn(rw http.ResponseWriter, req *http.Request) {
 	err := db.QueryRow("SELECT username,password FROM users WHERE username = $1 AND password = $2", username, password).Scan(&user.Username, &user.Password)
 	if err != nil {
 		http.Redirect(rw, req, "/", http.StatusFound)
+	} else {
+		expire := time.Now().AddDate(0, 0, 1)
+		cookie := http.Cookie{Name: "fishme", Value: user.Username, Path: "/", Expires: expire, MaxAge: 86400}
+		http.SetCookie(rw, &cookie)
+		http.Redirect(rw, req, "/home", http.StatusFound)
 	}
-	expire := time.Now().AddDate(0, 0, 1)
-	cookie := http.Cookie{Name: "fishme", Value: user.Username, Path: "/", Expires: expire, MaxAge: 86400}
-	http.SetCookie(rw, &cookie)
-	http.Redirect(rw, req, "/home", http.StatusFound)
 }
 
 func LogOut(rw http.ResponseWriter, req *http.Request) {
@@ -84,6 +84,7 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 		// Picture Upload
 		file, handler, err := req.FormFile("picture")
 		utility.ShitAppend(err)
+
 		if err != nil {
 			path = "img/fish/" + species + ".jpg"
 		} else {
@@ -134,16 +135,19 @@ func AddFish(rw http.ResponseWriter, req *http.Request) {
 func DeleteFish(rw http.ResponseWriter, req *http.Request) {
 
 	picture := req.FormValue("picture")
+	species := req.FormValue("type")
 	id, err := strconv.Atoi(req.FormValue("id"))
 	utility.ShitAppend(err)
 
 	fish := Fish{Id: id, Picture: picture}
 
-	_, err = db.Query("DELETE FROM fish WHERE id = $1", fish.Id)
-	utility.ShitAppend(err)
-
-	//err = os.Remove(fish.Picture)
-	//utility.ShitAppend(err)
-
+	if species != "Goldfish" {
+		_, err = db.Query("DELETE FROM fish WHERE id = $1", fish.Id)
+		utility.ShitAppend(err)
+		/*
+			err = os.Remove("/img/users/" + fish.Picture)
+			utility.ShitAppend(err)
+		*/
+	}
 	http.Redirect(rw, req, "/home", http.StatusFound)
 }
