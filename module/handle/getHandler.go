@@ -60,7 +60,7 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 		var count int
 		err := db.QueryRow("SELECT COUNT(*) FROM fish WHERE username = $1", cookieVal).Scan(&count)
 		utility.ShitAppend(err)
-		for loop := 0; loop <= count; loop++ {
+		for loop := 0; loop <= count-1; loop++ {
 			//fishes := append(fishes, make(Fish{}))
 			err := db.QueryRow("SELECT * FROM fish WHERE username = $1 LIMIT 1 OFFSET $2", cookieVal, loop).Scan(
 				&fishes[loop].Id,
