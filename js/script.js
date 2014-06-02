@@ -15,14 +15,3 @@ function showPosition(position) {
   });
 }
 
-var map;
-function watchLocation() {
-  var mapOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(parseFloat($("#catchPos").val()))
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);

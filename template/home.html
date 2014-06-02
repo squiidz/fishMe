@@ -17,9 +17,10 @@
     <link href="css/jumbotron.css" type="text/css" rel="stylesheet">
     <link href="css/map.css" type="text/css" rel="stylesheet">
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/effects.js"></script>
     <script src="js/map.js"></script>
@@ -287,7 +288,7 @@
                     <input name="type" type="text" value="{{$fish.Type}}" hidden>
                     <input name="picture" type="text" value="{{$fish.Picture}}" hidden>
                     <button class="btn btn-success" type="submit">Remove</button>
-                    <a class="btn btn-primary" href="#mapModal" type="button" data-toggle="modal">On Map</a>
+                    <a href="#mapModal" id="showMap" class="btn btn-primary" data-toggle="modal">Map</a>
                     <input id="locat" type="text" value="{{$fish.Location}}" hidden>
                   </form>
               </div>
@@ -309,7 +310,7 @@
                       <div class="modal-body">
                           <div class="container">
                               <div class="row">
-                                  <div id="map-canvas" class=""></div>
+                                  <div id="map-canvas" class="container"></div>
                               </div>
                           </div>
                       </div>
@@ -324,7 +325,5 @@
           <!-- MAP MODAL END -->
 
     </div> <!-- /container -->
-
-    <script src="js/bootstrap.min.js"></script>
   </body>
 </html>

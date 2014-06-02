@@ -1,4 +1,4 @@
-#map-canvas  {
+#map-canvas {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -7,4 +7,8 @@
 #map-canvas {
   width:560px;
   height:480px;
+}
+
+.modal {
+
 }
