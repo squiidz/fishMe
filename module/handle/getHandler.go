@@ -8,7 +8,6 @@ import (
 )
 
 func Handler(rw http.ResponseWriter, req *http.Request) {
-
 	if req.URL.Path != "/" { // Check if the request is for the root
 		http.NotFound(rw, req)
 		return

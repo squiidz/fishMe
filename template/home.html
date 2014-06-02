@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="">
-    <link href='favicon.ico' rel='icon' type='image/x-icon'/>
+    <link href='img/favicon.ico' rel='icon' type='image/x-icon'/>
     <!-- Fonts Link -->
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
@@ -15,13 +15,14 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/jumbotron.css" type="text/css" rel="stylesheet">
+    <link href="css/map.css" type="text/css" rel="stylesheet">
 
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?">
-    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
-    <script src="js/script.js"> </script>
+    <script src="js/script.js"></script>
+    <script src="js/effects.js"></script>
+    <script src="js/map.js"></script>
     <title>FishMe! | Home</title>
 
   </head>
@@ -89,7 +90,7 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       <h2 style="color: black;" class="modal-title" id="addFishLabel">Add a Fish</h2>
                     </div>
                     <div class="modal-body">
@@ -265,10 +266,10 @@
        <!-- Jumbotron End -->
 
         {{range $fish := .}}
-        <div class="span8" id="draggable">
+        <div class="span8">
           <div class="col-sm-8 col-md-3">
             <div class="thumbnail">
-              <img src="{{$fish.Picture}}">
+              <img class="fishImg" src="{{$fish.Picture}}">
               <div class="caption">
                 
                 <h2 style="color: #FFFFFF" name="type">{{$fish.Type}}</h2>
@@ -276,16 +277,18 @@
                   <div class="spec" name="weight">Pounds : {{$fish.Weight}}</div>
                   <div class="spec" name="length">Inches : {{$fish.Length}}</div>
                   <div class="spec" name="lure">Lure : {{$fish.Lure}}</div>
-                  <div id="catchPos" class="spec" name="location">Location : {{$fish.Location}}</div>
+                  <div class="spec" name="location">Location : {{$fish.Location}}</div>
                   <div class="spec" name="info">Info : {{$fish.Info}}</div>
                   <div class="spec" name="date">Date : {{$fish.Date}}</div>
                   
+
                   <form action="/delete" method="POST">
                     <input name="id" type="text" value="{{$fish.Id}}" hidden>
                     <input name="type" type="text" value="{{$fish.Type}}" hidden>
                     <input name="picture" type="text" value="{{$fish.Picture}}" hidden>
                     <button class="btn btn-success" type="submit">Remove</button>
-                    <button class="btn btn-primary" type="button">On Map</button>
+                    <a class="btn btn-primary" href="#mapModal" type="button" data-toggle="modal">On Map</a>
+                    <input id="locat" type="text" value="{{$fish.Location}}" hidden>
                   </form>
               </div>
             </div>
@@ -293,19 +296,35 @@
         </div>
         {{end}}
 
+          <!-- Map Modal Begin -->
+          <div class="modal fade" id="mapModal">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                           <h2 style="color: black;" class="modal-title">Fish Map</h2>
+                      </div>
+                      
+                      <div class="modal-body">
+                          <div class="container">
+                              <div class="row">
+                                  <div id="map-canvas" class=""></div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+
+                  </div>
+              </div> 
+          </div>
+          <!-- MAP MODAL END -->
 
     </div> <!-- /container -->
-<!-- Futur Footer here
-    <div class="navbar navbar-default navbar-static-bottom">
-      <div class="footer">
-        <p>&copy; FishMe.io 2014</p>
-      </div>
-    </div>
--->
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
+
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
