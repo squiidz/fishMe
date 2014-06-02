@@ -4,9 +4,9 @@ var map;
 var realPos=new google.maps.LatLng(45.833309, -73.417408);
 
 
-function initialize() {
+function initialize(place) {
 
-  var coord = $("#locat").val();
+  var coord = place;
   var splitCoord = coord.split(",");
   var xPos = parseFloat(splitCoord[0]);
   var yPos = parseFloat(splitCoord[1]);
