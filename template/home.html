@@ -11,6 +11,7 @@
     <!-- Fonts Link -->
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link href="css/font-awesome.min.css" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -29,42 +30,10 @@
   </head>
 
   <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">FishMe!</a>
-        </div>
-        <div class="navbar-collapse collapse in" style="height: 1px;">
-        <div class="container">
-            <div class="pull-right">
-              <div class="btn-group">
-                <a type="button" class="btn btn-success navbar-btn" href="/home">Home</a>
-              </div>
-              
-              <a type="button" class="btn navbar-btn btn-success"  href="/profil">Profil</a>
-
-              <div class="btn-group">
-                <button type="button" class="btn navbar-btn btn-success dropdown-toggle" data-toggle="dropdown" id="addStuff"><a href="#"></a>Add Stuff<b class="caret"></b></button>
-                    <ul class="dropdown-menu .addStuff" role="menu">
-                      <li><a href="#">Add new fish</a></li>
-                      <li><a href="#">Add new spot</a></li>
-                    </ul>
-              </div>
-
-                  <a type="button" class="btn navbar-btn btn-success" href="/logout">Log Out</a>
-
-              </div>
-            </div>
-          </div>
-        </div><!--/.navbar-collapse -->
-      </div>
-
+    {{define "homeButton"}}
+      {{.}}
+    {{end}}
+    {{define "fishes"}}
 
     <div class="container">
 
@@ -275,13 +244,14 @@
                 
                 <h2 style="color: #FFFFFF" name="type">{{$fish.Type}}</h2>
                   <!--<div class="">Type : {{$fish.Type}}</div>-->
-                  <div class="spec" name="weight">Pounds : {{$fish.Weight}}</div>
-                  <div class="spec" name="length">Inches : {{$fish.Length}}</div>
-                  <div class="spec" name="lure">Lure : {{$fish.Lure}}</div>
-                  <div class="spec" name="location">Location : {{$fish.Location}}</div>
-                  <div class="spec" name="info">Info : {{$fish.Info}}</div>
-                  <div class="spec" name="date">Date : {{$fish.Date}}</div>
-                  
+                  <div class="alert alert-info">
+                    <div class="spec" name="weight">Pounds : {{$fish.Weight}}</div>
+                    <div class="spec" name="length">Inches : {{$fish.Length}}</div>
+                    <div class="spec" name="lure">Lure : {{$fish.Lure}}</div>
+                    <div class="spec" name="location">Location : {{$fish.Location}}</div>
+                    <div class="spec" name="info">Info : {{$fish.Info}}</div>
+                    <div class="spec" name="date">Date : {{$fish.Date}}</div>
+                  </div>
 
                   <form action="/delete" method="POST">
                     <input name="id" type="text" value="{{$fish.Id}}" hidden>
@@ -323,7 +293,7 @@
               </div> 
           </div>
           <!-- MAP MODAL END -->
-
+          {{end}}
     </div> <!-- /container -->
   </body>
 </html>

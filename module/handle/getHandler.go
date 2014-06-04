@@ -82,7 +82,15 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 		}
 		fishes = fishes[0:count]
 		log.Println("[*] Cookie value for " + req.RemoteAddr + " is " + cookie.Value)
-		temp.Execute(rw, fishes)
+
+		home, err := utility.LoadPage("article/home")
+		utility.ShitAppend(err)
+		HomeButton := template.HTML(string(home.Body))
+
+		temp.ExecuteTemplate(rw, "fishes", fishes)
+		temp.ExecuteTemplate(rw, "homeButton", HomeButton)
+
+		temp.Execute(rw, nil)
 	}
 
 }

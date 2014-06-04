@@ -6,12 +6,13 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
 func SignIn(rw http.ResponseWriter, req *http.Request) {
 
-	username := req.FormValue("username")
+	username := strings.ToLower(req.FormValue("username"))
 	password := req.FormValue("password")
 	user := User{}
 	err := db.QueryRow("SELECT username,password FROM users WHERE username = $1 AND password = $2", username, password).Scan(&user.Username, &user.Password)
@@ -35,7 +36,7 @@ func AddUser(rw http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
 
 		user := User{
-			Username: req.FormValue("username"),
+			Username: strings.ToLower(req.FormValue("username")),
 			Email:    req.FormValue("email"),
 			Password: req.FormValue("password"),
 			Date:     time.Now()}

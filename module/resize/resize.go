@@ -15,7 +15,7 @@ func ResizeMe(pic string) {
 	picture := strings.SplitAfter(pic, ".")
 	ext := picture[len(picture)-1]
 
-	if ext == "jpg" {
+	if ext == "jpg" || ext == "jpeg" {
 		ResizeJpeg(pic)
 	} else if ext == "png" {
 		ResizePng(pic)

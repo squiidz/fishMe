@@ -29,19 +29,28 @@ label{
   font-family: 'Lobster', cursive;
   font-size: 22px;
 }
-.form-control{
-
+.fishImg{
+  border-radius: 15px;
 }
 .thumbnail {
   background-color: #212121;
-  border-top: 5px;
-  border-right: 5px;
-  border-left: 5px;
-  border-bottom: 5px;
-  border-style: solid;
+  border-top: 10px;
+  border-right: 10px;
+  border-left: 10px;
+  border-bottom: 10px;
+  
+  border-color: #424242;
+  border-radius: 15px;
   box-shadow: black;
+
+  padding: 10px;
 }
-.spec {
+button {
+  color: #FFFFFF;
+  font-family: 'Roboto Slab', cursive;
+  padding: 10px;
+} 
+.spec, a{
   color: #FFFFFF;
   font-family: 'Roboto Slab', cursive;
 }
@@ -54,7 +63,16 @@ img{
 p, h4, h3 {
   color: #FFFFFF;
 }
-
+.alert-info {
+  background-color: #424242;
+  border: 10px solid #424242;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
 .well{
   background: #212121;
   border: 3px solid #212121;
@@ -133,6 +151,11 @@ li {
   font-size: 21px;
 }
 
+.jumbotron button {
+  margin-top: 0px;
+  padding: 20px;
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
@@ -158,4 +181,5 @@ li {
   .jumbotron {
     border-bottom: 0;
   }
+
 }
