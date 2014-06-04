@@ -4,6 +4,7 @@ body {
   padding-bottom: 20px;
   background-image: url("../img/fisherman.jpg");
   background-size: cover;
+  background-repeat: no-repeat;
 }
 textarea {
   resize: none;
@@ -41,9 +42,9 @@ label{
   
   border-color: #424242;
   border-radius: 15px;
-  box-shadow: black;
 
   padding: 10px;
+
 }
 button {
   color: #FFFFFF;
@@ -100,7 +101,9 @@ li {
   color: #51a351;
 }
 
-
+.jumbotron .fish{
+  border-bottom: 10px;
+}
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -179,7 +182,7 @@ li {
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
-    border-bottom: 0;
+    border-bottom: 20px;
   }
 
 }
