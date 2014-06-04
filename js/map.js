@@ -1,16 +1,10 @@
 
 
 var map;        
-var realPos=new google.maps.LatLng(45.833309, -73.417408);
+var defaultPlace=new google.maps.LatLng(45.833309, -73.417408);
 
 
-function initialize(place) {
-
-  var coord = place;
-  var splitCoord = coord.split(",");
-  var xPos = parseFloat(splitCoord[0]);
-  var yPos = parseFloat(splitCoord[1]);
-  realPos = new google.maps.LatLng(xPos, yPos);
+function initialize(realPos) {
 
   var marker=new google.maps.Marker({
     position:realPos
@@ -52,4 +46,24 @@ function resizingMap() {
    var center = map.getCenter();
    google.maps.event.trigger(map, "resize");
    map.setCenter(center); 
+}
+
+function popMap(place) {
+  var coord = place;
+  var splitCoord = coord.split(",");
+  var xPos = parseFloat(splitCoord[0]);
+  var yPos = parseFloat(splitCoord[1]);
+
+  var checkIsNumber = function() {
+    if (isNaN(splitCoord[0])) {
+      initialize(defaultPlace);
+    } 
+    else {
+      realPos = new google.maps.LatLng(xPos, yPos);
+      initialize(realPos);
+    }
+  }
+  
+  checkIsNumber();
+
 }

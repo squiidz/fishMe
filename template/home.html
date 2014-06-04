@@ -288,7 +288,7 @@
                     <input name="type" type="text" value="{{$fish.Type}}" hidden>
                     <input name="picture" type="text" value="{{$fish.Picture}}" hidden>
                     <button class="btn btn-success" type="submit">Remove</button>
-                    <button href="#mapModal" id="showMap" onclick="initialize({{$fish.Location}})" type="button" class="btn btn-primary" data-toggle="modal">Map</button>
+                    <button href="#mapModal" id="showMap" onclick="popMap({{$fish.Location}})" type="button" class="btn btn-primary" data-toggle="modal">Map</button>
                     <input id="locat" type="text" value="{{$fish.Location}}" hidden>
                   </form>
               </div>
@@ -316,7 +316,7 @@
                       </div>
                       
                       <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
                       </div>
 
                   </div>
