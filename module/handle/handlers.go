@@ -25,4 +25,10 @@ type Fish struct {
 	Picture  string
 }
 
+type ById []Fish
+
+func (f ById) Len() int           { return len(f) }
+func (f ById) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
+func (f ById) Less(i, j int) bool { return f[i].Id > f[j].Id }
+
 var db = database.SetupDB()
