@@ -1,4 +1,5 @@
-
+$('input[type=file]').bootstrapFileInput();
+$('.file-inputs').bootstrapFileInput();
 
 function getLocation()  {
   if (navigator.geolocation)  {

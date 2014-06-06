@@ -2,6 +2,7 @@ package handle
 
 import (
 	"PushKids/module/utility"
+	"bytes"
 	"html/template"
 	"log"
 	"net/http"
@@ -36,18 +37,15 @@ func ProfilHandler(rw http.ResponseWriter, req *http.Request) {
 		temp, err := template.ParseFiles("template/profil.html")
 		utility.ShitAppend(err)
 
-		home, err := utility.LoadPage("article/home")
-		utility.ShitAppend(err)
-		HomeButton := template.HTML(string(home.Body))
-		temp.Execute(rw, HomeButton)
+		temp = template.Must(temp.Parse(ParseNavbarFile("article/home"))) // Add The content of the home.pk to the current template
+
+		temp.Execute(rw, nil)
 	}
 }
 
 func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 	fishes := make([]Fish, 20)
 
-	temp, err := template.ParseFiles("template/home.html")
-	utility.ShitAppend(err)
 	log.Println("[*]Handling Request from : " + req.RemoteAddr + " At [/home]")
 
 	var cookie, er = req.Cookie("fishme")
@@ -83,15 +81,34 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 		fishes = fishes[0:count]
 		log.Println("[*] Cookie value for " + req.RemoteAddr + " is " + cookie.Value)
 
-		home, err := utility.LoadPage("article/home")
+		temp, err := template.ParseFiles("template/home.html") // Parse the home.html file
 		utility.ShitAppend(err)
-		HomeButton := template.HTML(string(home.Body))
 
-		temp.ExecuteTemplate(rw, "fishes", fishes)
-		temp.ExecuteTemplate(rw, "homeButton", HomeButton)
-		temp.ExecuteTemplate(rw, "userInfo", cookie.Value)
+		userId := "{{define \"userId\"}}" + cookie.Value + "{{end}}" // Create a template on the fly to get the username with the cookie value
 
-		temp.Execute(rw, nil)
+		temp = template.Must(temp.Parse(ParseNavbarFile("article/home"))) // Add The content of the home.pk to the current template
+		temp = template.Must(temp.Parse(userId))                          // Same as above but for userId
+
+		temp.Execute(rw, ParseFishFile(fishes)) // Execute the template and push it to the ResponseWrite
+
 	}
 
+}
+
+// Parse the fish.tmpl, execute it to a buffer, transform the buffer to a HTML string and return it !
+func ParseFishFile(fishes []Fish) template.HTML {
+	var buff bytes.Buffer
+
+	fishTemp := template.Must(template.New("fishes").ParseFiles("template/fish.tmpl"))
+	fishTemp.ExecuteTemplate(&buff, "fishes", fishes)
+	fishData := template.HTML(buff.String())
+
+	return fishData
+}
+
+// End of the ParseFishFile Function !
+func ParseNavbarFile(file string) string {
+	home, err := utility.LoadPage(file) // Load the content of the home.pk file (Navbar)
+	utility.ShitAppend(err)
+	return string(home.Body)
 }

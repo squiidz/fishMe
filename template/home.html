@@ -16,31 +16,26 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/jumbotron.css" type="text/css" rel="stylesheet">
-    <link href="css/map.css" type="text/css" rel="stylesheet">
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-filestyle.min.js"></script>    
     <script src="js/script.js"></script>
-    <script src="js/effects.js"></script>
     <title>FishMe! | Home</title>
 
   </head>
 
   <body>
-    {{define "homeButton"}}
-      {{.}}
-    {{end}}
-    {{define "fishes"}}
+      {{template "navigation"}}
 
     <div class="container">
 
       <div class="jumbotron">
 <!--POUR LE USERNAME* -->
         <h3 style="font-family: 'Lobster', cursive;">Welcome back, <span class="jumbo-username">
-        {{$fish := index . 0}} <!-- Trouver une meilleur facons dafficher le user ! -->
-        {{$fish.Username}}
+          {{template "userId"}}
         </span> !</h3>
 
 
@@ -67,7 +62,7 @@
                     <form role="form" method="POST" action="/fish" enctype="multipart/form-data">
 
                       <div class="form-group">
-                        <label class="col-sm-1">Species</label>
+                        <label class="">Species</label>
                         <select name="type" class="form-control">
                           <option>Achigan</option>
                           <option>Barbue</option>
@@ -84,21 +79,21 @@
 
                         <div class="col-lg-6">
                           <div class="form-group">
-                            <label class="col-sm-1">Weigth</label>
+                            <label class="">Weigth</label>
                             <input name="weigth" type="value" class="form-control" id="exampleInputPassword1" placeholder="Weigth" required>
                           </div>
                         </div>
 
                         <div class="col-lg-6">
                           <div class="form-group">
-                            <label class="col-sm-1">Length</label>
+                            <label class="">Length</label>
                             <input name="length" type="value" class="form-control" id="exampleInputEmail1" placeholder="Length" required>
                           </div>
                         </div>
 
                         <div class="col-lg-6">
                           <div class="form-group">
-                            <label class="col-sm-1">Lure</label>
+                            <label class="">Lure</label>
                             <select name="lure" class="form-control">
                               <option>Spiner-Bait</option>
                               <option>Cuillere</option>
@@ -112,11 +107,15 @@
 
                         <div class="col-lg-6">
                           <div class="form-group">
-                            <label class="col-sm-1">Location</label>
+                            <label class="">Location</label>
 
                             <div class="input-append">
-                              <input id="findme" name="location" type="text" class="form-control" placeholder="Location" required>
-                              <button type="button" class="btn btn-success" onclick="getLocation()">FindMe</button> <!-- Just to Get the Coor -->
+                              <div class="input-group">
+                                <input id="findme" name="location" type="text" class="form-control" placeholder="Location" required>
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-success" onclick="getLocation()" style="padding: 6px;">FindMe</button>
+                                </span>
+                              </div>
                             </div>
 
                           </div>
@@ -125,12 +124,12 @@
                       </div>
 
                       <div class="form-group">
-                        <label>File input</label>
-                        <input name="picture" type="file">
+                        <label>Picture</label>
+                        <input name="picture" type="file" class="filestyle" data-icon="true">
                       </div>
 
                       <div class="form-group">
-                        <label class="col-sm-1">Note</label>
+                        <label class="">Note</label>
                         <textarea name="info" type="username" class="form-control" placeholder="Some Note" rows="4"></textarea>
                       </div>
 
@@ -233,38 +232,7 @@
         </div>
       </div>
        <!-- Jumbotron End -->
-
-        {{range $fish := .}}
-        <div class="span8">
-          <div class="col-sm-8 col-md-3">
-            <div class="thumbnail">
-              <img class="fishImg" src="{{$fish.Picture}}">
-              <div class="caption">
-
-                <h2 style="color: #FFFFFF" name="type">{{$fish.Type}}</h2>
-                  <!--<div class="">Type : {{$fish.Type}}</div>-->
-                  <div class="alert alert-info">
-                    <div class="spec" name="weight">Pounds : {{$fish.Weight}}</div>
-                    <div class="spec" name="length">Inches : {{$fish.Length}}</div>
-                    <div class="spec" name="lure">Lure : {{$fish.Lure}}</div>
-                    <div class="spec" name="location">Location : {{$fish.Location}}</div>
-                    <div class="spec" name="info">Info : {{$fish.Info}}</div>
-                    <div class="spec" name="date">Date : {{$fish.Date}}</div>
-                  </div>
-
-                  <form action="/delete" method="POST">
-                    <input name="id" type="text" value="{{$fish.Id}}" hidden>
-                    <input name="type" type="text" value="{{$fish.Type}}" hidden>
-                    <input name="picture" type="text" value="{{$fish.Picture}}" hidden>
-                    <button class="btn btn-success" type="submit">Remove</button>
-                    <button href="#mapModal" id="showMap" onclick="popMap({{$fish.Location}})" type="button" class="btn btn-primary" data-toggle="modal">Map</button>
-                    <input id="locat" type="text" value="{{$fish.Location}}" hidden>
-                  </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        {{end}}
+      {{.}} <!-- FISH RENDERING !! -->
 
           <!-- Map Modal Begin -->
           <div class="modal fade" id="mapModal">
@@ -292,7 +260,6 @@
               </div>
           </div>
           <!-- MAP MODAL END -->
-          {{end}}
     </div> <!-- /container -->
   </body>
 </html>
