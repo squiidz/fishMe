@@ -89,6 +89,7 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 
 		temp.ExecuteTemplate(rw, "fishes", fishes)
 		temp.ExecuteTemplate(rw, "homeButton", HomeButton)
+		temp.ExecuteTemplate(rw, "userInfo", cookie.Value)
 
 		temp.Execute(rw, nil)
 	}

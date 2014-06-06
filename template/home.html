@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="">
-    <link href='img/favicon.ico' rel='icon' type='image/x-icon'/>
+    <link href="img/favicon.ico" rel="icon" type='image/x-icon'/>
     <!-- Fonts Link -->
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
@@ -24,7 +24,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/effects.js"></script>
-    <script src="js/map.js"></script>
     <title>FishMe! | Home</title>
 
   </head>
@@ -80,7 +79,7 @@
                           <option>Truite</option>
                         </select>
                       </div>
-                      
+
                       <div class="row">
 
                         <div class="col-lg-6">
@@ -114,15 +113,15 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="col-sm-1">Location</label>
-                    
+
                             <div class="input-append">
                               <input id="findme" name="location" type="text" class="form-control" placeholder="Location" required>
                               <button type="button" class="btn btn-success" onclick="getLocation()">FindMe</button> <!-- Just to Get the Coor -->
                             </div>
-                            
+
                           </div>
                         </div>
-                      
+
                       </div>
 
                       <div class="form-group">
@@ -241,7 +240,7 @@
             <div class="thumbnail">
               <img class="fishImg" src="{{$fish.Picture}}">
               <div class="caption">
-                
+
                 <h2 style="color: #FFFFFF" name="type">{{$fish.Type}}</h2>
                   <!--<div class="">Type : {{$fish.Type}}</div>-->
                   <div class="alert alert-info">
@@ -271,12 +270,12 @@
           <div class="modal fade" id="mapModal">
               <div class="modal-dialog">
                   <div class="modal-content">
-                      
+
                       <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                            <h2 style="color: black;" class="modal-title">Fish Map</h2>
                       </div>
-                      
+
                       <div class="modal-body">
                           <div class="container">
                               <div class="row">
@@ -284,13 +283,13 @@
                               </div>
                           </div>
                       </div>
-                      
+
                       <div class="modal-footer">
                           <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
                       </div>
 
                   </div>
-              </div> 
+              </div>
           </div>
           <!-- MAP MODAL END -->
           {{end}}
