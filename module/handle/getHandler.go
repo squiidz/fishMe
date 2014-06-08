@@ -110,19 +110,24 @@ func FindHandler(rw http.ResponseWriter, req *http.Request) {
 		log.Println("[*] " + req.RemoteAddr + " Redirected to index")
 	} else {
 		term := req.FormValue("find")
-		term = strings.ToLower(term)
-		term = strings.Replace(term, term[:1], strings.ToUpper(term[:1]), 1)
-		log.Println(term)
+		if term != "" {
+			term = strings.ToLower(term)
+			term = strings.Replace(term, term[:1], strings.ToUpper(term[:1]), 1)
+			log.Println(term)
 
-		temp, err := template.ParseFiles("template/find.html")
-		utility.ShitAppend(err)
+			temp, err := template.ParseFiles("template/find.html")
+			utility.ShitAppend(err)
 
-		temp = template.Must(temp.Parse(ParseNavbarFile("template/navbar"))) // Add The content of the navbar.tmpl to the current template
-		temp = template.Must(temp.ParseFiles("template/add_fish.tmpl"))
-		temp = template.Must(temp.ParseFiles("template/map.tmpl")) // Map template
+			temp = template.Must(temp.Parse(ParseNavbarFile("template/navbar"))) // Add The content of the navbar.tmpl to the current template
+			temp = template.Must(temp.ParseFiles("template/add_fish.tmpl"))
+			temp = template.Must(temp.ParseFiles("template/map.tmpl")) // Map template
 
-		fishFind := FindFish(term)
+			fishFind := FindFish(term)
 
-		temp.Execute(rw, ParseSecureFishFile(fishFind))
+			temp.Execute(rw, ParseSecureFishFile(fishFind))
+		} else {
+			http.Redirect(rw, req, "/home", http.StatusFound)
+		}
+
 	}
 }
