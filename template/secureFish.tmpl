@@ -1,0 +1,32 @@
+{{define "secureFishes"}}
+{{range .}}
+        <div class="span8">
+          <div class="col-sm-8 col-md-3">
+            <div class="thumbnail">
+              <img class="fishImg" src="{{.Picture}}">
+              <div class="caption">
+                
+                <h2 style="color: #FFFFFF" name="type">{{.Type}}</h2>
+                  <div class="alert alert-info">
+                    <div class="spec" name="weight">User : {{.Username}}</div>
+                    <div class="spec" name="weight">Pounds : {{.Weight}}</div>
+                    <div class="spec" name="length">Inches : {{.Length}}</div>
+                    <div class="spec" name="lure">Lure : {{.Lure}}</div>
+                    <div class="spec" name="location">Location : {{.Location}}</div>
+                    <div class="spec" name="info">Info : {{.Info}}</div>
+                    <div class="spec" name="date">Date : {{.Date}}</div>
+                  </div>
+
+                  <form action="" method="">
+                    <input name="id" type="text" value="{{.Id}}" hidden>
+                    <input name="type" type="text" value="{{.Type}}" hidden>
+                    <input name="picture" type="text" value="{{.Picture}}" hidden>
+                    <button href="#mapModal" id="showMap" onclick="popMap({{.Location}})" type="button" class="btn btn-primary" data-toggle="modal">Map</button>
+                    <input id="locat" type="text" value="{{.Location}}" hidden>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+{{end}}
+{{end}}

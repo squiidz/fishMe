@@ -26,6 +26,15 @@ func LoadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+func LoadTemplate(title string) (*Page, error) {
+	filename := title + ".tmpl"
+	body, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil, err
+	}
+	return &Page{Title: title, Body: body}, nil
+}
+
 func Mkdir(name string) {
 	err := os.Mkdir(name, 0777)
 	if err != nil {

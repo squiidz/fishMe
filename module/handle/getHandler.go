@@ -2,7 +2,6 @@ package handle
 
 import (
 	"PushKids/module/utility"
-	"bytes"
 	"html/template"
 	"log"
 	"net/http"
@@ -38,7 +37,8 @@ func ProfilHandler(rw http.ResponseWriter, req *http.Request) {
 		temp, err := template.ParseFiles("template/profil.html")
 		utility.ShitAppend(err)
 
-		temp = template.Must(temp.Parse(ParseNavbarFile("article/home"))) // Add The content of the home.pk to the current template
+		temp = template.Must(temp.Parse(ParseNavbarFile("template/navbar"))) // Add The content of the navbar.tmpl to the current template
+		temp = template.Must(temp.ParseFiles("template/add_fish.tmpl"))
 
 		temp.Execute(rw, nil)
 	}
@@ -79,6 +79,7 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 			utility.ShitAppend(err)
 			log.Println("[*] Fish => " + fishes[loop].Type + " loaded")
 		}
+
 		fishes = fishes[0:count]
 		sort.Sort(ById(fishes))
 
@@ -89,8 +90,10 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 
 		userId := "{{define \"userId\"}}" + cookie.Value + "{{end}}" // Create a template on the fly to get the username with the cookie value
 
-		temp = template.Must(temp.Parse(ParseNavbarFile("article/home"))) // Add The content of the home.pk to the current template
-		temp = template.Must(temp.Parse(userId))                          // Same as above but for userId
+		temp = template.Must(temp.Parse(ParseNavbarFile("template/navbar"))) // Add The content of the navbar.tmpl to the current template
+		temp = template.Must(temp.Parse(userId))                             // Same as above but for userId
+		temp = template.Must(temp.ParseFiles("template/add_fish.tmpl"))      // Add Fish modal
+		temp = template.Must(temp.ParseFiles("template/map.tmpl"))           // Map template
 
 		temp.Execute(rw, ParseFishFile(fishes)) // Execute the template and push it to the ResponseWrite
 
@@ -98,20 +101,22 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 
 }
 
-// Parse the fish.tmpl, execute it to a buffer, transform the buffer to a HTML string and return it !
-func ParseFishFile(fishes []Fish) template.HTML {
-	var buff bytes.Buffer
+func FindHandler(rw http.ResponseWriter, req *http.Request) {
+	var _, er = req.Cookie("fishme")
+	term := req.FormValue("find")
+	if er != nil {
+		http.Redirect(rw, req, "/", http.StatusFound)
+		log.Println("[*] " + req.RemoteAddr + " Redirected to index")
+	} else {
+		temp, err := template.ParseFiles("template/find.html")
+		utility.ShitAppend(err)
 
-	fishTemp := template.Must(template.New("fishes").ParseFiles("template/fish.tmpl"))
-	fishTemp.ExecuteTemplate(&buff, "fishes", fishes)
-	fishData := template.HTML(buff.String())
+		temp = template.Must(temp.Parse(ParseNavbarFile("template/navbar"))) // Add The content of the navbar.tmpl to the current template
+		temp = template.Must(temp.ParseFiles("template/add_fish.tmpl"))
+		temp = template.Must(temp.ParseFiles("template/map.tmpl")) // Map template
 
-	return fishData
-}
+		fishFind := FindFish(term)
 
-// End of the ParseFishFile Function !
-func ParseNavbarFile(file string) string {
-	home, err := utility.LoadPage(file) // Load the content of the home.pk file (Navbar)
-	utility.ShitAppend(err)
-	return string(home.Body)
+		temp.Execute(rw, ParseSecureFishFile(fishFind))
+	}
 }
