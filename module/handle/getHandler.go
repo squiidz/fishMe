@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"sort"
+	"strings"
 )
 
 func Handler(rw http.ResponseWriter, req *http.Request) {
@@ -103,11 +104,16 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 
 func FindHandler(rw http.ResponseWriter, req *http.Request) {
 	var _, er = req.Cookie("fishme")
-	term := req.FormValue("find")
+
 	if er != nil {
 		http.Redirect(rw, req, "/", http.StatusFound)
 		log.Println("[*] " + req.RemoteAddr + " Redirected to index")
 	} else {
+		term := req.FormValue("find")
+		term = strings.ToLower(term)
+		term = strings.Replace(term, term[:1], strings.ToUpper(term[:1]), 1)
+		log.Println(term)
+
 		temp, err := template.ParseFiles("template/find.html")
 		utility.ShitAppend(err)
 
