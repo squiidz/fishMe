@@ -1,7 +1,7 @@
 package resize
 
 import (
-	"PushKids/module/utility"
+	"github.com/PushKids/module/utility"
 	"github.com/nfnt/resize"
 	"image/gif"
 	"image/jpeg"
