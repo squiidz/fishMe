@@ -1,8 +1,8 @@
 package handle
 
 import (
-	"PushKids/module/database"
-	"PushKids/module/utility"
+	"github.com/PushKids/module/database"
+	"github.com/PushKids/module/utility"
 	"bytes"
 	"html/template"
 	"time"
