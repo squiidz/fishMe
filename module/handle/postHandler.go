@@ -1,8 +1,8 @@
 package handle
 
 import (
-	"PushKids/module/resize"
-	"PushKids/module/utility"
+	"github.com/PushKids/module/resize"
+	"github.com/PushKids/module/utility"
 	"io/ioutil"
 	"net/http"
 	"strconv"
