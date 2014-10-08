@@ -1,7 +1,7 @@
 package main
 
 import (
-	"PushKids/module/handle"
+	"github.com/PushKids/module/handle"
 	"flag"
 	"net/http"
 )
