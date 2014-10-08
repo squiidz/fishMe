@@ -1,7 +1,7 @@
 package database
 
 import (
-	"PushKids/module/utility"
+	"github.com/PushKids/module/utility"
 	"database/sql"
 	_ "github.com/lib/pq"
 )
