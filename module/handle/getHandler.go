@@ -1,7 +1,7 @@
 package handle
 
 import (
-	"PushKids/module/utility"
+	"github.com/PushKids/module/utility"
 	"html/template"
 	"log"
 	"net/http"
