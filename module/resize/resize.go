@@ -1,14 +1,15 @@
 package resize
 
 import (
-	"github.com/PushKids/module/utility"
-	"github.com/nfnt/resize"
 	"image/gif"
 	"image/jpeg"
 	"image/png"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/nfnt/resize"
+	"github.com/squiidz/fishMe/module/utility"
 )
 
 func ResizeMe(pic string) {

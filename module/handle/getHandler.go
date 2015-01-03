@@ -1,12 +1,13 @@
 package handle
 
 import (
-	"github.com/PushKids/module/utility"
 	"html/template"
 	"log"
 	"net/http"
 	"sort"
 	"strings"
+
+	"github.com/squiidz/fishMe/module/utility"
 )
 
 func Handler(rw http.ResponseWriter, req *http.Request) {
@@ -14,9 +15,7 @@ func Handler(rw http.ResponseWriter, req *http.Request) {
 		http.NotFound(rw, req)
 		return
 	}
-
 	var _, er = req.Cookie("fishme")
-	log.Println("[*]Handling Request from : " + req.RemoteAddr)
 
 	if er != nil {
 		temp, err := template.ParseFiles("template/index.html")
@@ -33,7 +32,6 @@ func ProfilHandler(rw http.ResponseWriter, req *http.Request) {
 	var _, er = req.Cookie("fishme")
 	if er != nil {
 		http.Redirect(rw, req, "/", http.StatusFound)
-		log.Println("[*] " + req.RemoteAddr + " Redirected to index")
 	} else {
 		temp, err := template.ParseFiles("template/profil.html")
 		utility.ShitAppend(err)
@@ -48,11 +46,8 @@ func ProfilHandler(rw http.ResponseWriter, req *http.Request) {
 func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 	fishes := make([]Fish, 20)
 
-	log.Println("[*]Handling Request from : " + req.RemoteAddr + " At [/home]")
-
 	var cookie, er = req.Cookie("fishme")
 	if er != nil {
-		log.Println("[*]" + req.RemoteAddr + " not able to connect")
 		http.Redirect(rw, req, "/", http.StatusFound)
 	} else {
 		cookieVal := cookie.Value
@@ -78,13 +73,10 @@ func HomeHandler(rw http.ResponseWriter, req *http.Request) {
 			}
 
 			utility.ShitAppend(err)
-			log.Println("[*] Fish => " + fishes[loop].Type + " loaded")
 		}
 
 		fishes = fishes[0:count]
 		sort.Sort(ById(fishes))
-
-		log.Println("[*] Cookie value for " + req.RemoteAddr + " is " + cookie.Value)
 
 		temp, err := template.ParseFiles("template/home.html") // Parse the home.html file
 		utility.ShitAppend(err)
@@ -107,7 +99,6 @@ func FindHandler(rw http.ResponseWriter, req *http.Request) {
 
 	if er != nil {
 		http.Redirect(rw, req, "/", http.StatusFound)
-		log.Println("[*] " + req.RemoteAddr + " Redirected to index")
 	} else {
 		term := req.FormValue("find")
 		if term != "" {

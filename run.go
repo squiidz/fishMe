@@ -1,30 +1,34 @@
 package main
 
 import (
-	"github.com/PushKids/module/handle"
 	"flag"
 	"net/http"
+
+	"github.com/go-zoo/bone"
+	"github.com/go-zoo/claw"
+	"github.com/go-zoo/claw/mw"
+	"github.com/squiidz/fishMe/module/handle"
 )
 
 func main() {
 	port := flag.String("port", "80", "-port [your port]")
 	flag.Parse()
+
+	mux := bone.New()
+	clw := claw.New(mw.Logger)
 	// GET Handler
-	http.HandleFunc("/", handle.Handler)
-	http.HandleFunc("/profil", handle.ProfilHandler)
-	http.HandleFunc("/home", handle.HomeHandler)
-	http.HandleFunc("/find", handle.FindHandler)
+	mux.Get("/", clw.Use(handle.Handler))
+	mux.Get("/profil", clw.Use(handle.ProfilHandler))
+	mux.Get("/home", clw.Use(handle.HomeHandler))
+	mux.Get("/find", clw.Use(handle.FindHandler))
 	// POST Handler
-	http.HandleFunc("/signin", handle.SignIn)
-	http.HandleFunc("/logout", handle.LogOut)
-	http.HandleFunc("/add", handle.AddUser)
-	http.HandleFunc("/fish", handle.AddFish)
-	http.HandleFunc("/delete", handle.DeleteFish)
+	mux.Post("/signin", clw.Use(handle.SignIn))
+	mux.Post("/logout", clw.Use(handle.LogOut))
+	mux.Post("/add", clw.Use(handle.AddUser))
+	mux.Post("/fish", clw.Use(handle.AddFish))
+	mux.Post("/delete", clw.Use(handle.DeleteFish))
 	// Ressources
-	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
-	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
-	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("img"))))
-	http.Handle("/fonts/", http.StripPrefix("/fonts/", http.FileServer(http.Dir("fonts"))))
+	mux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	// Start to serve
-	http.ListenAndServe(":"+*port, nil)
+	http.ListenAndServe(":"+*port, mux)
 }

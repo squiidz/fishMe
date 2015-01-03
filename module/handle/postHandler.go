@@ -1,13 +1,14 @@
 package handle
 
 import (
-	"github.com/PushKids/module/resize"
-	"github.com/PushKids/module/utility"
 	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/squiidz/fishMe/module/resize"
+	"github.com/squiidz/fishMe/module/utility"
 )
 
 func SignIn(rw http.ResponseWriter, req *http.Request) {

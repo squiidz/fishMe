@@ -1,9 +1,10 @@
 package database
 
 import (
-	"github.com/PushKids/module/utility"
 	"database/sql"
+
 	_ "github.com/lib/pq"
+	"github.com/squiidz/fishMe/module/utility"
 )
 
 func SetupDB() *sql.DB {

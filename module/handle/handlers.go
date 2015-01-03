@@ -1,11 +1,12 @@
 package handle
 
 import (
-	"github.com/PushKids/module/database"
-	"github.com/PushKids/module/utility"
 	"bytes"
 	"html/template"
 	"time"
+
+	"github.com/squiidz/fishMe/module/database"
+	"github.com/squiidz/fishMe/module/utility"
 )
 
 type User struct {
